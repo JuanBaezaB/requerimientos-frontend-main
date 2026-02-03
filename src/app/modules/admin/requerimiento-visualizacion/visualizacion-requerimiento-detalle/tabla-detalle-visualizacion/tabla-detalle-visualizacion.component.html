@@ -1,0 +1,212 @@
+<!-- Selección de coordinados -->
+@if (mostrarWidget()) {
+  <div class="info-coordinados-seleccionados">
+    <p>
+      Usted ha seleccionado <strong>{{ selectedCount() }}</strong> Coordinados
+      para la descarga de archivos.
+      <a class="seleccion-coorinados" (click)="seleccionarTodos()"
+        >Seleccionar los <strong>{{ totalCount() }}</strong> Coordinados del
+        requerimiento</a
+      >
+    </p>
+  </div>
+}
+
+<!-- Widget de sin resultado -->
+@if (visualizarDetalleStore.warningSinResultados()) {
+  <section class="mb-5 mt-5 rounded-lg bg-[#FFF3CD] pb-4 pl-6 pt-4">
+    <div class="flex items-center gap-3">
+      <span
+        class="material-symbols-outlined text-[#523E02]"
+        style="font-size: 40px"
+      >
+        warning
+      </span>
+      <span
+        >Sin resultados para mostrar. Por favor, intente con otras
+        opciones.</span
+      >
+    </div>
+  </section>
+}
+
+<div>
+  @if (visualizarDetalleStore.cargandoTabla()) {
+    <div class="flex w-full justify-center">
+      <mat-spinner color="primary" diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <!-- Tabla de coordinados -->
+    <section class="table-container">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        (matSortChange)="onSortChange($event)"
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="indice">
+          <th mat-header-cell *matHeaderCellDef class="w-[40px] text-center">
+            <mat-checkbox
+              [checked]="isAllSelected()"
+              [indeterminate]="isIndeterminate()"
+              (change)="toggleAllSelection($event)"
+              [disabled]="detalleVisualizar()?.tipo === 'Plan de Acción'"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let element" class="w-[40px] text-center">
+            <mat-checkbox
+              [indeterminate]="
+                detalleVisualizar()?.tipo === 'Con archivos adjuntos' &&
+                element.respuestas.length === 0
+              "
+              [checked]="element.selected"
+              (change)="toggleRowSelection(element.id, $event.checked)"
+              [disabled]="
+                detalleVisualizar()?.tipo === 'Plan de Acción' ||
+                (detalleVisualizar()?.tipo === 'Con archivos adjuntos' &&
+                  element.respuestas.length === 0)
+              "
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Rut -->
+        <ng-container matColumnDef="rut">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>RUT</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.rut || "-" }}
+          </td>
+        </ng-container>
+
+        <!-- Coordinado -->
+        <ng-container matColumnDef="coordinado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-[25%]">
+            Coordinado
+          </th>
+          <td mat-cell *matCellDef="let element" class="w-[25%]">
+            {{ element?.nombre || "-" }}
+          </td>
+        </ng-container>
+
+        <!-- Respuesta -->
+        <ng-container matColumnDef="respuesta">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Respuesta</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="flex">
+              @if (element?.respuestas.length > 0) {
+                <span>Si</span>
+              } @else {
+                <span>No</span>
+              }
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Fecha de respuesta -->
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Fecha de respuesta
+          </th>
+          <td mat-cell *matCellDef="let element">
+            @if (element?.respuestas.length > 0) {
+              <span>{{
+                element?.respuestas[0].fecha | date: "dd/MM/yyyy"
+              }}</span>
+            } @else {
+              <span>-</span>
+            }
+          </td>
+        </ng-container>
+
+        <!-- Estado -->
+        <ng-container matColumnDef="descargar">
+          <th mat-header-cell *matHeaderCellDef class="w-[10%] text-center">
+            Descargar archivos
+          </th>
+          <td mat-cell *matCellDef="let element" class="w-[10%] text-center">
+            <div class="flex justify-center">
+              <!-- Tipos: 'Plan de Acción' o 'Con archivos adjuntos' -->
+              @if (
+                detalleVisualizar()?.tipo === "Con archivos adjuntos" &&
+                element?.respuestas.length > 0
+              ) {
+                <ng-container>
+                  @if (
+                    visualizarRespuestaStore
+                      .descargandoIds()
+                      .includes(element.id)
+                  ) {
+                    <mat-spinner diameter="24" color="primary"></mat-spinner>
+                  } @else {
+                    <span
+                      class="material-symbols-outlined cursor-pointer"
+                      style="color: #006b99"
+                      (click)="
+                        obtenerUrlArchivoDeCoordinador(element.id, element)
+                      "
+                    >
+                      folder_zip
+                    </span>
+                  }
+                </ng-container>
+              } @else {
+                <span>-</span>
+              }
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef class="w-[40px]"></th>
+          <td mat-cell *matCellDef="let element" class="w-[40px] text-center">
+            <div class="flex items-center gap-4 text-gray-500">
+              @if (element?.respuestas.length == 0) {
+                <span
+                  class="material-symbols-outlined cursor-not-allowed"
+                  matTooltip="Sin detalle"
+                  [class.opacity-40]="true"
+                >
+                  visibility
+                </span>
+              } @else {
+                <span
+                  class="material-symbols-outlined cursor-pointer"
+                  matTooltip="Ver detalle"
+                  (click)="irAVisualizarRequerimiento(element)"
+                >
+                  visibility
+                </span>
+              }
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Filas de encabezado y datos -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <!-- Fila para tabla vacía -->
+        <tr class="bg-gray-50" mat-no-data-row>
+          <td [attr.colspan]="displayedColumns.length" class="py-4 text-center">
+            No hay requerimientos disponibles
+          </td>
+        </tr>
+      </table>
+    </section>
+    <!-- Tabla de coordinados -->
+
+    <!-- Paginador local -->
+    <mat-paginator
+      [length]="totalPaginateCount()"
+      [pageSize]="pageSize()"
+      [pageIndex]="pageIndex()"
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      showFirstLastButtons
+      (page)="onPaginateChange($event)"
+    ></mat-paginator>
+    <!-- Paginador local -->
+  }
+</div>

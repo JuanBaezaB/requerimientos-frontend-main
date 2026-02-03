@@ -1,0 +1,91 @@
+<section [formGroup]="form()">
+  <div class="mb-7 flex justify-between">
+    <div class="flex h-10 flex-col border-l-2 border-[#006B99] pl-2">
+      <h2 class="text-sm font-semibold text-[#252730]">Paso 2</h2>
+      <p class="text-sm font-normal text-[#ABB7C2]">
+        Describa la solicitud y adjunte un archivo opcional
+      </p>
+    </div>
+  </div>
+
+  <div formGroupName="step2">
+    <div class="mt-6 flex flex-1 flex-col">
+      <h3 class="text-base font-bold text-[#252730]">Solicitud</h3>
+      <mat-form-field class="custom-area w-full">
+        <textarea
+          formControlName="solicitud"
+          matInput
+          maxlength="4000"
+          placeholder="Descripción"
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="15"
+        ></textarea>
+        <mat-hint align="end"
+          >{{ form().get("step2.solicitud")?.value?.length }}/4000</mat-hint
+        >
+        @if (form().get("step2.solicitud")?.hasError("required")) {
+          <mat-error>Solicitud es <strong>requerido</strong></mat-error>
+        }
+        @if (form().get("step2.solicitud")?.hasError("minlength")) {
+          <mat-error>
+            Solicitud debe tener al menos
+            <strong>3 caracteres</strong></mat-error
+          >
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="mt-11 flex flex-col gap-5">
+      <p class="text-sm text-[#ABB7C2]">
+        Adjunte un documento si requiere complementar su solicitud (Opcional)
+      </p>
+
+      <div
+        class="flex min-w-0 max-w-full cursor-pointer items-center sm:min-w-[380px] md:max-w-[560px]"
+        [class.opacity-40]="
+          form().get('step2.fileSolicitud')?.disabled ||
+          seEstanSubiendoArchivos()
+        "
+      >
+        <label
+          [attr.for]="!seEstanSubiendoArchivos() ? 'fileInput' : null"
+          class="cursor-pointer whitespace-nowrap rounded-l-md border border-[#CED4DA] bg-[#CED4DA] px-4 py-3 text-base text-[#272530]"
+          [class.cursor-pointer]="
+            !seEstanSubiendoArchivos() &&
+            form().get('step2.fileSolicitud')?.enabled
+          "
+        >
+          Adjuntar Archivo
+        </label>
+        <span
+          class="w-full cursor-pointer truncate rounded-md rounded-l-none border border-l-0 border-[#CED4DA] bg-white px-4 py-3 text-[#272530]"
+          [class.cursor-pointer]="
+            !seEstanSubiendoArchivos() &&
+            form().get('step2.fileSolicitud')?.enabled
+          "
+        >
+          {{ fileName() || "Cartaopcional.docx" }}
+        </span>
+        <input
+          type="file"
+          formControlName="fileSolicitud"
+          id="fileInput"
+          class="hidden"
+          [disabled]="seEstanSubiendoArchivos()"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </div>
+    @if (isUploading() || uploadComplete()) {
+      <div class="flex w-full flex-col gap-2 md:max-w-[560px]">
+        <span class="text-end text-[#666]">{{ uploadProgress() }}%</span>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="uploadProgress()"
+        ></mat-progress-bar>
+      </div>
+    }
+  </div>
+  <div class="mb-5 mt-8 h-[1px] w-full bg-[#E0E0E0]"></div>
+</section>

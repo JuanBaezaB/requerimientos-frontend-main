@@ -1,0 +1,19 @@
+.desktop-view {
+  display: flex;
+}
+
+.mobile-view {
+  display: none;
+}
+
+@media screen and (max-width: 639px) {
+  .desktop-view {
+    display: none !important;
+  }
+
+  .mobile-view {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}

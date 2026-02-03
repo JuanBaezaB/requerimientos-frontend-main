@@ -1,0 +1,32 @@
+<section [formGroup]="form()">
+  <div class="mb-7 flex justify-between">
+    <div class="flex h-10 flex-col border-l-2 border-[#006B99] pl-2">
+      <h2 class="text-sm font-semibold text-[#252730]">Paso 5</h2>
+      <p class="text-sm font-normal text-[#ABB7C2]">
+        Seleccione los roles a quienes se enviará un correo de notificación
+      </p>
+    </div>
+  </div>
+
+  <div class="mb-step5 flex flex-col gap-7 md:flex-row" formGroupName="step5">
+    <mat-form-field appearance="outline" class="w-full max-w-[330px]">
+      <mat-label>Roles</mat-label>
+      <mat-select
+        formControlName="notificaciones"
+        multiple
+        placeholder="Seleccione"
+        (valueChange)="onSelectionChange()"
+      >
+        <mat-select-trigger>
+          {{ getSelectTriggerLabel() }}
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let rol of roles" [value]="rol.value">
+          {{ rol.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-5 mt-8 h-[1px] w-full bg-[#E0E0E0]"></div>
+</section>

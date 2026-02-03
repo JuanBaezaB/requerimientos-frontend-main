@@ -1,0 +1,11 @@
+::ng-deep.mat-mdc-dialog-surface {
+  border-radius: 8px;
+}
+
+.mat-mdc-dialog-content {
+  padding: 25px 16px 18px 16px;
+}
+
+.mat-mdc-progress-spinner.mat-loading {
+  --mdc-circular-progress-active-indicator-color: #fff;
+}

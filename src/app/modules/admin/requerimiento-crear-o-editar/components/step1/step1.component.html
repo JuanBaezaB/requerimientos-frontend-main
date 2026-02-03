@@ -1,0 +1,193 @@
+<section [formGroup]="form()">
+  <div class="mb-2 flex justify-between">
+    <div class="flex h-10 flex-col border-l-2 border-[#006B99] pl-2">
+      <h2 class="text-sm font-semibold text-[#252730]">Paso 1</h2>
+      <p class="text-sm font-normal text-[#ABB7C2]">
+        Ingrese título y la información base del requerimiento
+      </p>
+    </div>
+
+    @let num = requerimientoCrearStore.correlativo();
+    <div class="flex flex-col items-end">
+      <p class="text-base font-semibold text-[#252730]">
+        Número de Requerimiento
+      </p>
+      <p>{{ num ?? "-" }}</p>
+    </div>
+  </div>
+
+  <div formGroupName="step1">
+    <mat-form-field class="custom-input w-full">
+      <input
+        matInput
+        formControlName="titulo"
+        #input
+        maxlength="100"
+        placeholder="Título del requerimiento"
+      />
+      <mat-hint align="end"
+        >{{ form().get("step1.titulo")?.value?.length }}/100</mat-hint
+      >
+      @if (form().get("step1.titulo")?.hasError("required")) {
+        <mat-error>Título es <strong>requerido</strong></mat-error>
+      }
+      @if (form().get("step1.titulo")?.hasError("minlength")) {
+        <mat-error>
+          Título debe tener al menos <strong>3 caracteres</strong>
+        </mat-error>
+      }
+    </mat-form-field>
+
+    @if (requerimientoCrearStore.isLoadingCrear()) {
+      <section class="creando-nuevo-requerimiento">
+        <div class="flex items-center">
+          <div class="flex items-center gap-2">
+            <mat-spinner diameter="28"></mat-spinner>
+            <span class="text-grey-800">
+              Creando número de requerimiento, por favor espere.
+            </span>
+          </div>
+        </div>
+      </section>
+    }
+
+    @if (
+      requerimientoCrearStore.correlativo() != null &&
+      mostrarBannerExito() &&
+      !requerimientoCrearStore.modoEdicion()
+    ) {
+      <section class="requerimiento-numero-creado rounded bg-[#e5feff] p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 text-green-600">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span class="text-gray-800">
+              Se ha creado correctamente el requerimiento número
+              {{ requerimientoCrearStore.correlativo() }}
+            </span>
+          </div>
+
+          <button (click)="entendido()" class="btn-entendido-requerimiento">
+            Entendido
+          </button>
+        </div>
+      </section>
+    }
+
+    @if (
+      !requerimientoCrearStore.isLoadingCrear() &&
+      requerimientoCrearStore.correlativo() == null
+    ) {
+      <div class="mt-2 flex justify-end gap-2">
+        <button
+          class="btn-requerimiento"
+          (click)="crearNuevoRequerimientoPorTitulo()"
+        >
+          <span class="material-symbols-outlined" style="color: #6cb33f">
+            check_circle
+          </span>
+        </button>
+        <button
+          class="btn-requerimiento"
+          (click)="limpiarInputNuevoRequerimiento()"
+        >
+          <span class="material-symbols-outlined" style="color: #6a1a21">
+            cancel
+          </span>
+        </button>
+      </div>
+    }
+
+    <div class="mt-4 flex flex-wrap justify-between gap-20">
+      <div>
+        <mat-form-field
+          appearance="outline"
+          class="w-full"
+          [ariaDisabled]="true"
+        >
+          <mat-label>Fecha de vencimiento</mat-label>
+          <input
+            matInput
+            formControlName="fechaVencimiento"
+            readonly
+            [matDatepicker]="picker"
+            [min]="minDate"
+            placeholder="DD/MM/YYYY"
+            (click)="openDatePicker()"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (form().get("step1.fechaVencimiento")?.hasError("required")) {
+            <mat-error>
+              Fecha de vencimiento es <strong>requerido</strong></mat-error
+            >
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-1 flex-col">
+        <h3 class="text-base font-bold text-[#252730]">Referencia</h3>
+        <mat-form-field class="custom-area w-full">
+          <textarea
+            formControlName="referencia"
+            matInput
+            maxlength="255"
+            placeholder="Descripción"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="3"
+          ></textarea>
+          <mat-hint align="end"
+            >{{ form().get("step1.referencia")?.value?.length }}/255</mat-hint
+          >
+          @if (form().get("step1.referencia")?.hasError("required")) {
+            <mat-error>Referencia es <strong>requerido</strong></mat-error>
+          }
+          @if (form().get("step1.referencia")?.hasError("minlength")) {
+            <mat-error>
+              Referencia debe tener al menos
+              <strong>3 caracteres</strong>
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-sm text-[#ABB7C2]">Seleccione una Norma (Opcional)</p>
+      <div class="mt-6 flex flex-col gap-4 md:flex-row">
+        <mat-form-field appearance="outline" class="w-full max-w-[425px]">
+          <mat-label>Norma</mat-label>
+          <mat-select placeholder="Seleccione" formControlName="norma">
+            <mat-option [value]="null">Norma</mat-option>
+            @for (regulation of regulations(); track regulation.value) {
+              <mat-option [value]="regulation">{{
+                regulation.label
+              }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full max-w-[425px]">
+          <mat-label>Sub-norma</mat-label>
+          <mat-select
+            placeholder="Seleccione"
+            formControlName="subNorma"
+            [disabled]="form().get('step1.subNorma')?.disabled!"
+            [compareWith]="compareByValue"
+          >
+            @for (subnorma of subnormas(); track subnorma.value) {
+              <mat-option [value]="subnorma">{{ subnorma.label }}</mat-option>
+            }
+          </mat-select>
+          @if (form().get("step1")?.hasError("subNormaRequired")) {
+            <mat-error> Sub-norma es <strong>requerido</strong></mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-5 mt-8 h-[1px] w-full bg-[#E0E0E0]"></div>
+</section>

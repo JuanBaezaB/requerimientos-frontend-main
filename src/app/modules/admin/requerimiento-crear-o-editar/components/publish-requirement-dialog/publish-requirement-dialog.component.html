@@ -1,0 +1,60 @@
+<mat-dialog-content>
+  @if (error()) {
+    <div class="mb-[10px] flex w-fit items-center rounded-lg bg-[#F5C2C7] p-2">
+      <mat-icon
+        class="material-symbols-outlined shrink-0 text-[#842029]"
+        style="width: 32px; height: 32px; font-size: 32px"
+      >
+        cancel
+      </mat-icon>
+    </div>
+  } @else {
+    <div class="mb-[10px] flex w-fit items-center rounded-lg bg-[#CFE2FF] p-2">
+      <mat-icon style="width: 32px; height: 32px; font-size: 32px">
+        <span
+          style="font-size: 32px"
+          class="material-icons-outlined text-[#006B99]"
+        >
+          info
+        </span>
+      </mat-icon>
+    </div>
+  }
+  <p class="mb-[11px] text-base font-semibold">
+    {{ error() ? "Error al publicar requerimiento" : "Publicar requerimiento" }}
+  </p>
+  <p class="mb-2 text-sm font-normal">
+    @if (error()) {
+      No se ha podido publicar el requerimiento, por favor reintente.
+    } @else {
+      ¿Está seguro de publicar el requerimiento {{ data.form.correlativo }} a
+      los Coordinados?
+    }
+  </p>
+  <div class="flex gap-3">
+    <button
+      (click)="closeDialog()"
+      [disabled]="loading()"
+      class="w-full rounded-lg py-3 text-base font-semibold text-[#006B99] hover:bg-[#006B99]/10"
+      [class.opacity-40]="loading()"
+    >
+      Volver
+    </button>
+
+    @if (loading()) {
+      <button
+        class="flex w-full items-center justify-center rounded-lg bg-[#006B99] py-3 text-base font-semibold text-white"
+      >
+        <mat-spinner diameter="20" color="loading"></mat-spinner>
+      </button>
+    } @else {
+      <button
+        (click)="publishRequirement()"
+        [disabled]="loading()"
+        class="flex w-full items-center justify-center rounded-lg bg-[#006B99] py-3 text-base font-semibold text-white"
+      >
+        {{ error() ? "Reintentar" : "Publicar" }}
+      </button>
+    }
+  </div>
+</mat-dialog-content>

@@ -1,0 +1,107 @@
+.btn-requerimiento {
+  padding-top: 10px;
+  padding-bottom: 6px;
+  padding-left: 24px;
+  padding-right: 24px;
+  gap: 8px;
+  margin-left: 14px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 19px -7px rgba(145, 146, 148, 0.59);
+  -webkit-box-shadow: 0px 1px 19px -7px rgba(145, 146, 148, 0.59);
+  -moz-box-shadow: 0px 1px 19px -7px rgba(145, 146, 148, 0.59);
+}
+
+.btn-requerimiento:hover {
+  background-color: rgb(229, 229, 229);
+}
+
+.btn-entendido-requerimiento {
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: #6cb33f;
+  color: white;
+  border-radius: 20px;
+}
+
+.btn-entendido-requerimiento:hover {
+  background-color: #51882f;
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 20px;
+  color: white;
+}
+
+// Para el input placeholder nativo (cuando no hay floating label)
+::ng-deep .custom-input .mat-mdc-input-element::placeholder {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #252730 !important;
+}
+
+// Para el texto que escribe el usuario en el input
+::ng-deep .custom-input .mat-mdc-input-element {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #252730 !important;
+}
+
+// Quitar el fondo gris del mat-form-field
+::ng-deep .custom-input .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+
+// Cambiar color del borde inferior cuando está inactivo
+::ng-deep .custom-input .mdc-line-ripple::before {
+  border-bottom-color: #e0e0e0 !important;
+}
+
+.mat-mdc-progress-spinner.mat-succes {
+  --mdc-circular-progress-active-indicator-color: white;
+}
+
+@media screen and (max-width: 639px) {
+  section[formGroup] {
+    .mb-2.flex {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .flex-col.items-end {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  .flex.flex-wrap.justify-between {
+    flex-direction: column !important;
+    gap: 1rem !important;
+
+    > div {
+      width: 100% !important;
+    }
+  }
+
+  // Norma y Sub Norma
+  .mt-6.flex {
+    flex-direction: column !important;
+    gap: 1rem !important;
+
+    mat-form-field {
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+  }
+
+  .mt-2.flex.justify-end {
+    justify-content: flex-start !important;
+    button {
+      flex: 1 1 auto;
+      max-width: 48%;
+    }
+  }
+}

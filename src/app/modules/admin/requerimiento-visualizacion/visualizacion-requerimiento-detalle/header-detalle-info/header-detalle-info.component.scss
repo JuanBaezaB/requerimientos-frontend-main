@@ -1,0 +1,41 @@
+.pill-estado-header {
+  text-align: center;
+  color: white;
+  font-weight: lighter;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.pill-respondidos-header {
+  font-weight: lighter;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-align: center;
+}
+
+.pill-pendientes-header {
+  text-align: center;
+  font-weight: lighter;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.pill-respondidos-header {
+  text-align: center;
+  font-weight: lighter;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.mobile-view {
+  display: none;
+}
+
+@media screen and (max-width: 639px) {
+  .desktop-view {
+    display: none;
+  }
+
+  .mobile-view {
+    display: block;
+  }
+}

@@ -1,0 +1,219 @@
+.texto-titulo-referencia {
+  font-size: 14px;
+  font-weight: 400;
+  color: #abb7c2;
+}
+
+.requerimiento-titulo-dt {
+  font-weight: bold;
+  font-size: 16px;
+  color: #252730;
+}
+
+.requerimiento-referencia-tl {
+  font-weight: bold;
+  font-size: 16px;
+  color: #252730;
+}
+
+.requerimiento-referencia-content {
+  font-size: 14px;
+  font-weight: 400;
+  color: #abb7c2;
+}
+
+.wrapper-norma {
+  background-color: #e5e5e6;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  gap: 4;
+  border-bottom: 1px solid black;
+}
+
+.norma-title {
+  padding-top: 4px;
+  font-size: 12px;
+  font-weight: 300;
+  padding-left: 16px;
+  color: #252730;
+}
+
+.norma-desc {
+  font-size: 16px;
+  padding-left: 16px;
+  margin-bottom: 4px;
+  color: #252730;
+}
+
+.solicitud-tl {
+  margin-top: 16px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.btn-descarga-documento-solicitud {
+  background-color: #006b99;
+  border-radius: 50px;
+  color: white;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+.btn-descarga-documento-solicitud:hover {
+  background-color: #005177;
+}
+
+.material-symbols-outlined {
+  font-size: 40px;
+}
+
+.wrapper-icon-descarga {
+  color: #006b99;
+  border: 1px solid #d2d3d3;
+  width: 36px;
+  height: 36px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.wrapper-icon-descarga > .material-symbols-outlined {
+  font-size: 26px;
+  margin: 0 auto;
+}
+
+.archivo-lista-container {
+  border-bottom: 1px solid #e0e0e0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.btn-descarga-archivo > button:hover {
+  background-color: #e0e0e0;
+  margin: 4px;
+  border-radius: 5px;
+}
+
+.wrapper-lista-coordinados {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top: 1px solid #d2d3d3;
+  border-left: 1px solid #d2d3d3;
+  border-right: 1px solid #d2d3d3;
+}
+
+.elemento-coordinado {
+  border-bottom: 1px solid #d2d3d3;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 14px;
+}
+
+.volver-componente > .material-symbols-outlined {
+  font-size: 24px !important;
+}
+
+::ng-deep .mat-mdc-table {
+  background: #fff !important; // Fondo blanco
+}
+
+::ng-deep .mat-mdc-header-row {
+  background-color: #fcfcfd !important; // Header azul actual
+  color: #667085 !important; // Texto en blanco
+  font-weight: 400;
+}
+
+::ng-deep .mat-mdc-header-cell {
+  text-align: left;
+  padding: 12px;
+}
+::ng-deep .mat-mdc-checkbox.mat-mdc-checkbox-disabled.mdc-checkbox--selected {
+  pointer-events: none; /* sigue deshabilitado */
+}
+
+::ng-deep
+  .mat-mdc-checkbox.mat-mdc-checkbox-disabled.mdc-checkbox--selected
+  .mdc-checkbox__background {
+  background-color: #006b99 !important; /* Fondo azul */
+  border-color: #006b99 !important;
+  opacity: 1 !important;
+}
+
+::ng-deep
+  .mat-mdc-checkbox.mat-mdc-checkbox-disabled.mdc-checkbox--selected
+  .mdc-checkbox__checkmark {
+  color: #fff !important; /* Check blanco */
+  opacity: 1 !important;
+}
+
+.btn-ver-mas {
+  background: none;
+  border: none;
+  color: #006b99; // Azul corporativo
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 20px;
+  }
+}
+
+::ng-deep .mat-mdc-option .mat-pseudo-checkbox {
+  display: none !important;
+}
+
+@media screen and (max-width: 639px) {
+  .mb-6.flex.justify-between {
+    flex-direction: column !important;
+    gap: 1rem;
+    align-items: flex-start;
+
+    .flex.gap-8 {
+      flex-direction: column !important;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .flex-col.items-end {
+      align-items: flex-start !important;
+      text-align: left !important;
+    }
+  }
+
+  // Normas: Norma y Sub-norma apiladas
+  .flex.flex-row {
+    flex-direction: column !important;
+    gap: 1rem !important;
+
+    .wrapper-norma {
+      min-width: auto !important;
+      width: 100% !important;
+    }
+  }
+
+  // Archivos lista (Paso 3)
+  .archivo-lista-container {
+    min-width: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  // Buscador y lista coordinados (Paso 4)
+  mat-form-field.w-full.max-w-\[336px\],
+  .wrapper-lista-coordinados {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}

@@ -1,0 +1,37 @@
+<mat-dialog-content>
+  <div class="mb-6">
+    <div class="flex w-fit items-center">
+      <div class="warning-icon">
+        <span class="material-symbols-outlined" style="font-size: 38px">
+          warning
+        </span>
+      </div>
+    </div>
+    <strong>Enviar recordatorio</strong>
+    <br />
+  </div>
+
+  <p class="text-sm">
+    Se enviará un recordatorio a todos los coordinados que aún no han respondido
+    el requerimiento. ¿Desea continuar con el envío?<br />
+  </p>
+  <br />
+  <div class="flex gap-3">
+    <button
+      (click)="closeDialog()"
+      class="w-full rounded-lg py-3 text-base font-semibold text-[#006B99] hover:bg-[#006B99]/10"
+    >
+      Volver
+    </button>
+    <button
+      (click)="recordarALosCoordinados()"
+      class="flex w-full items-center justify-center rounded-lg bg-[#006B99] py-3 text-base font-semibold text-white"
+    >
+      @if (store.enviandoRecordatorio()) {
+        Enviando...
+      } @else {
+        Sí, enviar
+      }
+    </button>
+  </div>
+</mat-dialog-content>

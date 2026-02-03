@@ -1,0 +1,27 @@
+<div class="mt-5 flex items-center justify-end gap-11">
+  <button
+    (click)="volverAlInicio()"
+    class="rounded-lg bg-white px-6 py-3 text-sm font-medium text-[#006B99] transition-colors enabled:hover:bg-[#F8F9FA] disabled:opacity-40"
+    [disabled]="requerimientoCrearStore.subiendoArchivos()"
+  >
+    Volver
+  </button>
+  <button
+    (click)="openGuardarBorrador()"
+    class="btn-borrador rounded-lg bg-white px-6 py-3 text-sm font-medium text-[#006B99] transition-colors enabled:hover:bg-[#F8F9FA] disabled:opacity-40"
+    [disabled]="
+      !requerimientoCrearStore.correlativo() ||
+      requerimientoCrearStore.subiendoArchivos()
+    "
+  >
+    Guardar borrador
+  </button>
+  <button
+    type="button"
+    (click)="publicarRequerimiento()"
+    [disabled]="!canPublish() || requerimientoCrearStore.subiendoArchivos()"
+    class="rounded-lg bg-[#006B99] px-6 py-3 text-sm font-medium text-white transition-colors enabled:hover:bg-[#005886] disabled:opacity-40"
+  >
+    Publicar requerimiento
+  </button>
+</div>

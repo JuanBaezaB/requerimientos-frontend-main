@@ -1,0 +1,45 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+<div class="w-full bg-white p-4">
+  <app-header-respuesta-visualizar-coordinado></app-header-respuesta-visualizar-coordinado>
+
+  <div class="flex">
+    <div class="titulo-header">
+      <p class="titulo-header-contenido">Título</p>
+    </div>
+  </div>
+
+  <div class="flex">
+    <div class="titulo-p">
+      <p>
+        {{ headerDetalleVisualizar()?.titulo }}
+      </p>
+    </div>
+  </div>
+
+  <div class="mb-4 mt-4 h-[1px] w-full bg-[#E0E0E0]"></div>
+
+  <div class="flex">
+    <div class="respuesta-header">
+      <p class="respuesta-header-contenido">Respuesta al requerimiento</p>
+    </div>
+  </div>
+
+  @if (visualizarRespuestaStore.obteniendoUltimaRespuesta()) {
+    <mat-spinner diameter="40" color="primary"></mat-spinner>
+  } @else {
+    @if (headerDetalleVisualizar()?.tipoRespuesta === "Plan de Acción") {
+      <!-- Plan de acción -->
+      <div class="mb-[180px]">
+        <app-plan-accion-respuesta-coordinado></app-plan-accion-respuesta-coordinado>
+      </div>
+    } @else {
+      <!-- Lista Archivos -->
+      <div class="mb-[180px]">
+        <app-lista-archivo-respuesta-coordinado></app-lista-archivo-respuesta-coordinado>
+      </div>
+    }
+  }
+</div>

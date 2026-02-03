@@ -1,0 +1,27 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+
+<div class="w-full bg-white p-4">
+  <section class="mb-vista-toggle flex w-full justify-between gap-4">
+    <!-- Toggle a la izquierda -->
+    <div class="sm:w-auto sm:flex-1">
+      <app-toggle-requerimiento-admin></app-toggle-requerimiento-admin>
+    </div>
+
+    <!-- Botón a la derecha -->
+    <div class="justify-end">
+      <button
+        class="nuevo-requerimiento-btn w-full rounded-full bg-[#006b99] px-4 py-2 text-white sm:w-auto"
+        (click)="crearNuevoRequerimiento()"
+      >
+        + Crear Requerimiento
+      </button>
+    </div>
+  </section>
+
+  <section class="mt-6">
+    <router-outlet></router-outlet>
+  </section>
+</div>

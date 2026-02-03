@@ -1,0 +1,30 @@
+::ng-deep .custom-area .mat-mdc-input-element {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #757575 !important;
+}
+
+// Quitar el fondo gris del mat-form-field
+::ng-deep .custom-area .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+
+::ng-deep .custom-area .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+::ng-deep .custom-area .mdc-line-ripple::before {
+  border-bottom-color: #e0e0e0 !important;
+}
+
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-track-height: 8px !important;
+  --mdc-linear-progress-active-indicator-height: 8px !important;
+  // --mdc-linear-progress-active-indicator-color: #005CBB !important;
+  border-radius: 10px !important;
+}
+
+.mat-mdc-progress-spinner.mat-succes {
+  --mdc-circular-progress-active-indicator-color: white;
+}

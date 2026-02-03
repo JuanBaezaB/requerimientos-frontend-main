@@ -1,0 +1,50 @@
+table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.mat-mdc-row {
+  background: white;
+  height: 38px;
+}
+
+.mat-mdc-cell {
+  border-bottom: 0.78px solid #eaecf0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #252730;
+  font-weight: 400;
+}
+
+.mdc-data-table__cell {
+  padding: 10px 18px;
+}
+
+.mat-mdc-header-row {
+  background: #fcfcfd;
+  font-size: 14px;
+  font-weight: 400;
+  color: #667085;
+  font-weight: 400;
+}
+
+.mat-mdc-header-cell {
+  border-bottom: 0.78px solid #eaecf0;
+  white-space: nowrap;
+}
+
+.mdc-data-table__header-cell {
+  padding: 10px 18px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .mat-column-fecha,
+  .mat-column-nombreCortoProceso,
+  .mat-column-anio {
+    position: static !important;
+  }
+}

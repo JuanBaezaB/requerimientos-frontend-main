@@ -1,0 +1,105 @@
+<!-- Header Section -->
+<div class="w-full bg-white p-4">
+  @if (loadingData()) {
+    <div
+      class="flex h-[500px] flex-col items-center justify-center gap-4 bg-white"
+    >
+      <h2>Cargando información</h2>
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+
+  @if (errorInitialData() && !loadingData()) {
+    <div class="flex h-[500px] flex-col gap-4 bg-white">
+      <section
+        class="error-component-mb flex items-center justify-between rounded-lg bg-[#F5C2C7] py-3 pl-4 pr-3"
+      >
+        <div class="error-content-mb flex items-center gap-2">
+          <div class="flex items-center">
+            <mat-icon style="width: 32px; height: 32px; font-size: 32px"
+              ><span
+                style="font-size: 32px"
+                class="material-symbols-outlined text-[#6A1A21]"
+              >
+                cancel
+              </span></mat-icon
+            >
+          </div>
+          <p class="text-sm text-[#6A1A21]">
+            No se ha podido cargar la información, por favor reintente.
+          </p>
+        </div>
+        <button
+          (click)="retryLoadData()"
+          class="retry-button-mb w-fit rounded-full bg-[#842029] px-8 py-1 text-white"
+        >
+          Reintentar
+        </button>
+      </section>
+    </div>
+  }
+
+  @if (publishSuccess()) {
+    <section
+      class="mb-8 flex items-center justify-between rounded-lg bg-[#E5FEFF] py-3 pl-4 pr-3"
+    >
+      <div class="flex items-center gap-2">
+        <div class="flex items-center">
+          <mat-icon
+            style="width: 44px; height: 44px; font-size: 44px"
+            class="text-[#6CB33F]"
+          >
+            check_circle_outlined
+          </mat-icon>
+        </div>
+        <div class="flex flex-col">
+          <p class="text-sm font-semibold text-[#3D8B1B]">
+            Operación Realizada
+          </p>
+          @let num = requerimientoCrearStore.correlativo();
+          <p class="text-xs text-[#252730]">
+            Se ha publicado el requerimiento
+            {{ requerimientoForm.get("step1.titulo")?.value }} con el Número
+            {{ num }}
+          </p>
+        </div>
+      </div>
+      <button
+        (click)="volverAlAdministradorHome()"
+        class="rounded-full bg-[#6CB33F] px-6 py-1 text-white"
+      >
+        Entendido
+      </button>
+    </section>
+  }
+
+  @if (requerimientoCrearStore.modoVisualizacion()) {
+    <app-requerimiento-ver></app-requerimiento-ver>
+  } @else {
+    @if (!loadingData() && regulations().length > 0) {
+      <form [formGroup]="requerimientoForm">
+        <app-step1
+          [form]="requerimientoForm"
+          [regulations]="regulations()"
+        ></app-step1>
+
+        <app-step2 [form]="requerimientoForm"></app-step2>
+
+        <app-step3 [form]="requerimientoForm"></app-step3>
+
+        <app-step4
+          [form]="requerimientoForm"
+          [segments]="segments()"
+          [coordinados]="interesados()"
+        ></app-step4>
+
+        <app-step5 [form]="requerimientoForm"></app-step5>
+
+        <app-borrador-publicar
+          [form]="requerimientoForm"
+          (publishResult)="handlePublishResult($event)"
+        ></app-borrador-publicar>
+      </form>
+    }
+  }
+</div>

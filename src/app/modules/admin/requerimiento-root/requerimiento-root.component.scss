@@ -1,0 +1,80 @@
+.custom-expansion-panel.mat-expansion-panel {
+  background-color: #fff;
+  border: 1px solid #5a5a5a;
+  --mat-expansion-header-hover-state-layer-color: white;
+  --mat-sys-on-surface: #252730;
+  --mat-expansion-header-text-color: #252730;
+
+  &.mat-expansion-panel-spacing {
+    margin: 10px 0;
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0 16px;
+  }
+
+  &:not([class*="mat-elevation-z"]) {
+    box-shadow: none;
+  }
+}
+
+::ng-deep {
+  .custom-expansion-panel .mat-expansion-panel-content {
+    background-color: #fff;
+  }
+
+  .custom-expansion-panel .mat-expansion-panel-body {
+    padding: 0 16px 10px 16px;
+  }
+
+  // Estilos para campos con error
+  .mat-mdc-form-field.mat-form-field-invalid {
+    .mat-mdc-text-field-wrapper {
+      --mdc-outlined-text-field-error-outline-color: #79747e !important;
+      --mdc-outlined-text-field-error-focus-outline-color: #79747e !important;
+    }
+
+    .mat-mdc-form-field-error-wrapper {
+      color: #79747e !important;
+    }
+
+    .mat-mdc-floating-label {
+      --mdc-outlined-text-field-error-label-text-color: #79747e !important;
+      color: #79747e !important;
+    }
+  }
+}
+
+.nuevo-requerimiento-btn {
+  width: 220px;
+}
+
+// Mobile
+@media screen and (max-width: 639px) {
+  .nuevo-requerimiento-btn {
+    width: 100% !important;
+    border-radius: 8px !important;
+  }
+
+  .mb-vista-toggle {
+    flex-direction: column;
+  }
+
+  form {
+    .filtros-container {
+      flex-direction: column !important;
+      align-items: stretch !important;
+    }
+
+    mat-form-field {
+      width: 100% !important;
+      min-width: auto !important;
+      max-width: 100% !important;
+    }
+
+    button.buscar-btn {
+      width: 100% !important;
+      margin-top: 8px !important;
+    }
+  }
+}

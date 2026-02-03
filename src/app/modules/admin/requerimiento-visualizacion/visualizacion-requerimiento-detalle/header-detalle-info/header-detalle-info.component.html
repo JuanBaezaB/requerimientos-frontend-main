@@ -1,0 +1,117 @@
+<!-- Vista Mobile -->
+
+<div class="mobile-view rounded-lg bg-[#F0F8FF] p-4">
+  <div class="mb-4 flex-col items-center">
+    <div>
+      <p>
+        <strong>Nº del Requerimiento:</strong>
+        {{ detalleVisualizar()?.noRequerimiento }}
+      </p>
+    </div>
+
+    <div class="mb-4 mt-4">
+      <p>
+        <strong>Fecha de vencimiento: </strong>
+        {{ detalleVisualizar()?.fechaDeVencimiento | date: "dd/MM/yyyy" }}
+      </p>
+    </div>
+
+    <div class="mb-4 mt-4">
+      <p><strong>Título:</strong> {{ detalleVisualizar()?.titulo }}</p>
+    </div>
+
+    <!-- Totales -->
+    <div
+      class="flex flex-row items-center rounded-2xl bg-[#006B99] px-6 py-1 text-white"
+    >
+      <p class="font-light">Estado:</p>
+      <p class="ml-2">{{ detalleVisualizar()?.estado }}</p>
+    </div>
+
+    <div
+      class="mt-4 flex flex-row items-center rounded-2xl bg-[#CFE2FF] px-6 py-1"
+    >
+      <p class="font-light">Respondidos:</p>
+      <p class="ml-2 font-bold text-[#6CB33F]">
+        {{ detalleVisualizar()?.respondidos }}
+      </p>
+    </div>
+
+    <div
+      class="mt-4 flex flex-row items-center rounded-2xl bg-[#CFE2FF] px-6 py-1"
+    >
+      <p class="font-light">Pendientes:</p>
+      <p class="ml-2 font-bold text-[#842029]">
+        {{ detalleVisualizar()?.pendientes }}
+      </p>
+    </div>
+
+    <div
+      class="mt-4 flex flex-row items-center rounded-2xl bg-[#CFE2FF] px-6 py-1"
+    >
+      <p class="font-light">Total:</p>
+      <p class="ml-2 font-bold">{{ detalleVisualizar()?.total }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Vista Escritorio -->
+<div class="desktop-view rounded-lg bg-[#F0F8FF] p-4">
+  <!-- Primera fila -->
+  <div class="mb-4 flex flex-row items-center justify-between">
+    <!-- IZQUIERDA -->
+    <div>
+      <p>
+        <strong>Nº del Requerimiento:</strong>
+        {{ detalleVisualizar()?.noRequerimiento }}
+      </p>
+    </div>
+
+    <!-- DERECHA -->
+    <div class="flex flex-row gap-3">
+      <div
+        class="flex flex-row items-center rounded-2xl bg-[#006B99] px-6 py-1 text-white"
+      >
+        <p class="font-light">Estado:</p>
+        <p class="ml-2">{{ detalleVisualizar()?.estado }}</p>
+      </div>
+
+      <div
+        class="flex flex-row items-center rounded-2xl bg-[#CFE2FF] px-6 py-1"
+      >
+        <p class="font-light">Respondidos:</p>
+        <p class="ml-2 font-bold text-[#6CB33F]">
+          {{ detalleVisualizar()?.respondidos }}
+        </p>
+      </div>
+
+      <div
+        class="flex flex-row items-center rounded-2xl bg-[#CFE2FF] px-6 py-1"
+      >
+        <p class="font-light">Pendientes:</p>
+        <p class="ml-2 font-bold text-[#842029]">
+          {{ detalleVisualizar()?.pendientes }}
+        </p>
+      </div>
+
+      <div
+        class="flex flex-row items-center rounded-2xl bg-[#CFE2FF] px-6 py-1"
+      >
+        <p class="font-light">Total:</p>
+        <p class="ml-2 font-bold">{{ detalleVisualizar()?.total }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segunda fila -->
+  <div class="mb-4 mt-4">
+    <p>
+      <strong>Fecha de vencimiento: </strong>
+      {{ detalleVisualizar()?.fechaDeVencimiento | date: "dd/MM/yyyy" }}
+    </p>
+  </div>
+  <!-- Tercera fila -->
+  <div class="mb-4 mt-4">
+    <p><strong>Título:</strong> {{ detalleVisualizar()?.titulo }}</p>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+@media only screen and (max-width: 639px) {
+  .main-component-mb {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .main-component-mb > mat-form-field {
+    width: 100% !important;
+  }
+
+  .main-component-mb > .buscar-btn {
+    margin-top: 8px !important;
+    width: 100% !important;
+  }
+
+  .main-component-mb-button {
+    align-self: center !important;
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+
+  .main-select-component-mb {
+    align-self: center !important;
+    width: 100% !important;
+  }
+
+  // Widget de Reintentar
+  .error-component-mb {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .error-content-mb {
+    justify-content: center !important;
+  }
+
+  .retry-button-mb {
+    align-self: center !important;
+    width: 100% !important;
+    max-width: 280px;
+  }
+
+  // Widget de Warning de Reintentar
+  .warn-component-mb > div {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    text-align: center;
+    align-items: center !important;
+  }
+
+  .warn-component-mb p {
+    margin: 0 !important;
+  }
+}

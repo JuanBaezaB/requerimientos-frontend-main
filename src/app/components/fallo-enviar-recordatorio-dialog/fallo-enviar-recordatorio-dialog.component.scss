@@ -1,0 +1,29 @@
+.warning-icon {
+  color: #6a1a21;
+  width: 55px;
+  height: 55px;
+  background-color: #f5c2c7;
+  padding: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  margin-bottom: 12px;
+}
+
+::ng-deep.mat-mdc-dialog-surface {
+  border-radius: 8px;
+  width: 400px !important;
+}
+
+.mat-mdc-dialog-content {
+  padding: 25px 16px 18px 16px;
+}
+
+.mat-mdc-progress-spinner.mat-loading {
+  --mdc-circular-progress-active-indicator-color: #fff;
+}
+
+.perder-cambios-title {
+  margin-bottom: 12px;
+}

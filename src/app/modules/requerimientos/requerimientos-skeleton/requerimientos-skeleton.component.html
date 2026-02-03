@@ -1,0 +1,122 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add_circle"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=info"
+/>
+
+<!-- Skeleton de carga -->
+<div class="w-full overflow-hidden bg-[#f0f4f7]">
+  <div class="mb-[14px] w-full bg-white p-4">
+    <section class="paso pb-6 pt-6">
+      <div class="contenido">
+        <strong>Paso 1</strong>
+      </div>
+    </section>
+    <div class="titulo-requerimiento flex">
+      <div style="width: 200px">
+        <ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader>
+      </div>
+      <div style="width: 300px">
+        <ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader>
+      </div>
+    </div>
+
+    <div class="requerimiento-referencia">
+      <div style="width: 200px; margin-bottom: 32px">Referencia</div>
+      <div class="requerimiento-referencia-descripcion">
+        <ngx-skeleton-loader count="2" appearance="line"></ngx-skeleton-loader>
+      </div>
+    </div>
+
+    <section class="requerimiento-norma ml-5 flex pt-5">
+      <div style="width: 200px; margin-right: 30px">
+        <ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader>
+      </div>
+      <div style="width: 200px">
+        <ngx-skeleton-loader count="1" appearance="line"></ngx-skeleton-loader>
+      </div>
+    </section>
+
+    <section class="requerimiento-solicitud ml-5 pt-5">
+      <p class="solicitud-title mb-6">Solicitud</p>
+      <p class="solicitud-body overflow-y-auto">
+        <ngx-skeleton-loader count="6" appearance="line"></ngx-skeleton-loader>
+      </p>
+    </section>
+
+    <section
+      class="requerimiento-descarga-documento ml-5 flex flex-row justify-between pt-5"
+    >
+      <div class="flex-1"></div>
+      <div>
+        <button
+          [disabled]="true"
+          class="requerimiento-btn-documento flex gap-2 px-6 py-[14px] text-base font-semibold text-[#006B99]/40"
+        >
+          Obteniendo documento
+          <svg-xls></svg-xls>
+        </button>
+      </div>
+    </section>
+
+    <section class="paso">
+      <div class="contenido">
+        <strong>Paso 2</strong>
+      </div>
+    </section>
+
+    <section class="requerimiento-info ml-5 flex">
+      <div class="requerimiento-info-icono">
+        <div>
+          <span class="material-symbols-outlined" style="font-size: 32px">
+            info
+          </span>
+        </div>
+      </div>
+      <div class="requerimiento-info-contenido">
+        <div class="requerimiento-info-titulo">
+          <p>Recuerde</p>
+        </div>
+        <div class="requerimiento-info-contenido-lista" style="width: 80vw">
+          <ngx-skeleton-loader
+            count="3"
+            appearance="line"
+          ></ngx-skeleton-loader>
+        </div>
+      </div>
+    </section>
+
+    <section class="requerimiento-archivos ml-5 mt-8">
+      <!-- Lista de descargas dinámicas -->
+      <div class="requerimiento-archivos-lista flex">
+        <div class="mr-8 content-center">
+          <button
+            [disabled]="true"
+            class="requerimiento-btn-documento flex px-6 py-[14px] text-base font-semibold text-[#006B99]/40"
+          >
+            <span style="margin-right: 20px">Obteniendo archivos</span>
+            <svg-xls></svg-xls>
+          </button>
+        </div>
+        <div class="requerimiento-carga flex">
+          <label class="requerimiento-file-upload-wrapper">
+            <span class="requerimiento-file-upload-button">
+              Adjuntar Archivo
+            </span>
+            <span class="requerimiento-file-upload-text"> </span>
+            <input
+              type="file"
+              #fileInput
+              class="requerimiento-file-upload-input"
+              disabled="true"
+            />
+          </label>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<!-- Skeleton de carga -->

@@ -1,0 +1,167 @@
+@if (drawerOpen()) {
+  <div
+    (click)="closeDrawer()"
+    class="fixed inset-0 z-[9990] w-full bg-gray-600/50 backdrop-blur-sm"
+  ></div>
+}
+<div
+  class="fixed right-0 top-0 z-[9990] h-screen w-full transform overflow-y-auto rounded-tl-[20px] bg-[#F0F4F7] transition-transform duration-300 sm:w-[450px]"
+  [class.transition-transform]="isInitialized()"
+  [class.duration-300]="isInitialized()"
+  [class.translate-x-0]="drawerOpen()"
+  [class.translate-x-full]="!drawerOpen()"
+>
+  <div
+    class="flex items-center justify-between rounded-tl-[20px] bg-[#006B99] py-[22px] pl-8 pr-10 text-white"
+  >
+    <p style="font-size: 16px">Cambiar fecha de requerimiento</p>
+    <mat-icon
+      (click)="closeDrawer()"
+      style="width: 22px; height: 22px; font-size: 22px"
+      class="cursor-pointer text-white"
+    >
+      close
+    </mat-icon>
+  </div>
+  <div class="ml-8 mr-10 mt-7">
+    <div>
+      @if (store.seCambioFecha() == null) {
+      } @else if (store.seCambioFecha()) {
+        <!-- Exito al modificar fecha de requerimiento -->
+        <div>
+          <div class="exito-cambio-fecha">
+            <div class="error-content-mb flex items-center gap-2">
+              <div class="flex items-center">
+                <mat-icon style="width: 32px; height: 32px; font-size: 32px"
+                  ><span
+                    style="font-size: 32px"
+                    class="material-symbols-outlined text-[#6CB33F]"
+                  >
+                    check_circle
+                  </span></mat-icon
+                >
+              </div>
+              <p class="text-sm text-[#252730]">
+                Se ha actualizado la fecha de vencimiento correctamente del
+                requerimiento {{ numeroRequerimiento() }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Exito al modificar fecha de requerimiento -->
+      } @else {
+        <!-- Error al enviar fecha de requerimiento -->
+        <div class="error-cambio-fecha">
+          <div class="error-content-mb flex items-center gap-2">
+            <div class="flex items-center">
+              <mat-icon style="width: 32px; height: 32px; font-size: 32px"
+                ><span
+                  style="font-size: 32px"
+                  class="material-symbols-outlined text-[#6A1A21]"
+                >
+                  cancel
+                </span></mat-icon
+              >
+            </div>
+            <p class="text-sm text-[#6A1A21]">
+              No se ha podido cambiar la fecha del requerimiento, por favor
+              reintente.
+            </p>
+          </div>
+        </div>
+        <!-- Boton de reintentar -->
+        <button
+          class="retry-button-mb w-full rounded-full bg-[#842029] px-8 py-1 text-white"
+          (click)="limpiarCambioFecha()"
+        >
+          Reintentar
+        </button>
+      }
+    </div>
+
+    @if (store.seCambioFecha() == null) {
+      <div>
+        <p style="font-size: 14px">Título del requerimiento</p>
+      </div>
+      <div>
+        <p class="titulo-requerimiento-drawer">{{ tituloRequerimiento() }}</p>
+      </div>
+      <div class="flex justify-between">
+        <div>
+          <p class="titulo-requerimiento-normal">Nº de requerimiento</p>
+          <p class="valor-requerimiento-normal">{{ numeroRequerimiento() }}</p>
+        </div>
+        <div class="text-right">
+          <p class="titulo-requerimiento-normal">Fecha de vencimiento actual</p>
+          <p class="valor-requerimiento-normal">
+            {{ fechaVecimientoActual() | date: "dd/MM/YYYY" }}
+          </p>
+        </div>
+      </div>
+      <!-- Divisor -->
+      <div class="mb-3 mt-3 h-[1px] w-full bg-gray-300"></div>
+
+      <!-- Cambio de fecha -->
+      <div>
+        <p style="font-size: 14px" class="mb-3 mt-3">
+          ¿Desea cambiar la fecha de vencimiento para este requerimiento?
+        </p>
+      </div>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Nueva fecha de vencimiento</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [min]="fechaMinimaLimiteActual()"
+          (dateChange)="nuevaFechaSeleccionada($event.value)"
+          placeholder="Seleccione una fecha"
+          readonly
+          (keydown)="(false)"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Divisor -->
+      <div class="mb-3 mt-3 h-[1px] w-full bg-gray-300"></div>
+
+      <!-- Botón modificar fecha -->
+      <div class="flex justify-end">
+        <button
+          style="font-size: 14px"
+          class="nuevo-requerimiento-btn rounded-full bg-[#006b99] pb-2 pl-4 pr-4 pt-2 text-white"
+          [class.opacity-40]="!nuevaFecha()"
+          (click)="submitForm()"
+          [disabled]="!nuevaFecha()"
+        >
+          Modificar fecha
+        </button>
+      </div>
+    } @else if (store.seCambioFecha()) {
+      <div>
+        <p style="font-size: 14px">Título del requerimiento</p>
+      </div>
+      <div>
+        <p class="titulo-requerimiento-drawer">{{ tituloRequerimiento() }}</p>
+      </div>
+      <div class="flex justify-between">
+        <div>
+          <p class="titulo-requerimiento-normal">Nº de requerimiento</p>
+          <p class="valor-requerimiento-normal">{{ numeroRequerimiento() }}</p>
+        </div>
+        <div class="text-right">
+          <p class="titulo-requerimiento-normal">Nueva fecha de vencimiento</p>
+          <p class="valor-requerimiento-normal">
+            {{ fechaVecimientoActual() | date: "dd/MM/yyyy" }}
+          </p>
+        </div>
+      </div>
+      <!-- Divisor -->
+      <div class="mb-3 mt-3 h-[1px] w-full bg-gray-300"></div>
+    }
+  </div>
+</div>

@@ -1,0 +1,152 @@
+.paso {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+.paso .contenido {
+  border-left: 2px solid #006b99;
+  padding-left: 10px;
+  display: inline-block;
+}
+
+.paso .contenido > p {
+  color: #abb7c2;
+}
+
+.titulo-requerimiento {
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.requerimiento-referencia-titulo {
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.requerimiento-referencia-descripcion {
+  color: #757575;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ced4da;
+}
+
+.norma-container {
+  background-color: #e5e5e6;
+  border-bottom: 1px solid #252730;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  margin-right: 20px !important;
+}
+
+.norma-title {
+  font-size: 12px;
+  font-weight: 400;
+  color: #252730;
+}
+.norma-body {
+  font-size: 16px;
+  font-weight: 400;
+  color: #252730;
+}
+
+.requerimiento-solicitud {
+  color: #757575;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ced4da;
+}
+.solicitud-title {
+  color: #252730;
+}
+
+.requerimiento-btn-documento {
+  border: 1px solid #006b99;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.requerimiento-descarga-documento {
+  width: 98%;
+  align-content: end;
+}
+
+.requerimiento-info {
+  background-color: #cfe2ff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.requerimiento-info-icono {
+  color: #006b99;
+  margin-right: 8px;
+}
+
+.requerimiento-info-contenido {
+  font-weight: 400;
+}
+
+.requerimiento-info-titulo {
+  color: #006b99;
+  font-weight: 400;
+}
+.requerimiento-carga {
+  height: 54px;
+}
+
+.requerimiento-archivos {
+  border-bottom: 1px solid #ced4da;
+  padding-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.requerimiento-carga > .requerimiento-carga-info {
+  background-color: #ced4da;
+  align-content: center;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.requerimiento-carga > .requerimiento-carga-archivo {
+  align-content: center;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border: 1px solid #ced4da;
+}
+
+.requerimiento-archivos-lista {
+  margin-bottom: 20px;
+}
+
+.requerimiento-file-upload-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.requerimiento-file-upload-button {
+  background-color: #d1d5db;
+  color: #111827;
+  padding: 15px 22px;
+  cursor: pointer;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.requerimiento-file-upload-text {
+  color: #9ca3af;
+  background-color: white;
+  cursor: pointer;
+  padding-left: 20px;
+  padding-right: 80px;
+}
+
+.requerimiento-file-upload-input {
+  display: none;
+}

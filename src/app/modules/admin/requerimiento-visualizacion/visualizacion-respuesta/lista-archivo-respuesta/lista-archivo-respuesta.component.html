@@ -1,0 +1,33 @@
+<div class="contenedor-widgets">
+  @for (adjunto of adjuntos(); track $index) {
+    <div class="widget-archivo">
+      <div class="mb-4 text-wrap">
+        <p>{{ adjunto?.titulo ?? "Sin título" }}</p>
+      </div>
+      <div
+        class="archivo-nombre-componente flex items-center justify-between pb-4"
+      >
+        <div class="flex items-center gap-2">
+          <div class="container-icono">
+            <span class="material-symbols-outlined icono-save">file_save</span>
+          </div>
+          <p>{{ adjunto.nombre }}.{{ adjunto.extension }}</p>
+        </div>
+        <button
+          class="btn-descarga"
+          (click)="descargarArchivo(adjunto)"
+          [disabled]="visualizarRespuestaStore.bloquearDescargas()"
+          [class.opacity-40]="visualizarRespuestaStore.bloquearDescargas()"
+        >
+          @if (
+            visualizarRespuestaStore.estaDescargandoArchivo(adjunto.orden)()
+          ) {
+            Descargando...
+          } @else {
+            Descargar
+          }
+        </button>
+      </div>
+    </div>
+  }
+</div>

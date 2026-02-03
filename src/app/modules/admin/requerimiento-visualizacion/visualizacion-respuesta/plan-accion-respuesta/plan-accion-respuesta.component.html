@@ -1,0 +1,27 @@
+<div class="tabla-formulario">
+  <table
+    mat-table
+    [dataSource]="dataSource()"
+    class="mat-elevation-z8 full-width"
+  >
+    @for (col of columnasVisibles(); track col.id) {
+      <ng-container [matColumnDef]="col.nombre">
+        <th mat-header-cell *matHeaderCellDef>{{ col.nombre }}</th>
+
+        <td mat-cell *matCellDef="let element">
+          @if (col.nombre === "Seguimiento") {
+            <mat-checkbox
+              [checked]="element[col.nombre] === 'Sí'"
+              disabled
+            ></mat-checkbox>
+          } @else {
+            {{ element[col.nombre] }}
+          }
+        </td>
+      </ng-container>
+    }
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
+  </table>
+</div>

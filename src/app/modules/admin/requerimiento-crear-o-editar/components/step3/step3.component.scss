@@ -1,0 +1,208 @@
+::ng-deep .opcion-paso3-panel {
+  width: 2000px;
+  background-color: red;
+  font-size: 10px;
+}
+
+.btn-borrador {
+  border: 1px solid #006b99;
+}
+
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-track-height: 8px !important;
+  --mdc-linear-progress-active-indicator-height: 8px !important;
+  // --mdc-linear-progress-active-indicator-color: #005CBB !important;
+  border-radius: 10px !important;
+}
+
+// Para el input placeholder nativo (cuando no hay floating label)
+::ng-deep .custom-input .mat-mdc-input-element::placeholder {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #bebec1 !important;
+}
+
+::ng-deep .custom-input {
+  margin-top: 18px;
+}
+
+::ng-deep .custom-date-input {
+  margin-top: 18px;
+}
+
+// Para el texto que escribe el usuario en el input
+::ng-deep .custom-input .mat-mdc-input-element {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #252730 !important;
+}
+
+// Quitar el fondo gris del mat-form-field
+::ng-deep .custom-input .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+
+// Cambiar color del borde inferior cuando está inactivo
+::ng-deep .custom-input .mdc-line-ripple::before {
+  border-bottom-color: transparent !important;
+}
+
+.disabled-delete {
+  opacity: 0.4 !important; // fuerza 40% al botón deshabilitado
+}
+
+::ng-deep .mat-mdc-row {
+  background-color: white !important;
+}
+
+.tabla-plan-accion .mat-mdc-cell,
+.tabla-plan-accion .mat-mdc-header-cell {
+  border-bottom: 1px solid #eaecf0 !important;
+}
+
+/* Evita que se pueda hacer clic o escribir en el input */
+.no-focus {
+  pointer-events: none;
+  caret-color: transparent; // no mostrar cursor
+}
+
+/* Fuerza a que el label quede siempre arriba */
+.static-label {
+  transform: translateY(-1.6em) scale(0.75) !important;
+  transform-origin: top left !important;
+}
+
+/* Se comporta visualmente como input, pero sin interacción */
+.readonly-field {
+  padding: 0.5rem 0;
+  color: #252730;
+  pointer-events: none;
+}
+
+/* Opacidad consistente para todos los campos bloqueados */
+.locked-field.opacity-40 {
+  opacity: 0.4 !important;
+
+  /* Asegura que todos los elementos internos hereden la opacidad */
+  .mat-mdc-form-field-label,
+  .mat-mdc-input-element,
+  .mat-datepicker-toggle {
+    opacity: 1 !important; /* Los elementos internos mantienen opacidad completa */
+  }
+
+  /* Placeholder con opacidad consistente */
+  .mat-mdc-input-element::placeholder {
+    opacity: 0.7 !important;
+  }
+}
+
+/* Campos de fecha completamente bloqueados */
+.no-interaction {
+  pointer-events: none !important;
+  cursor: default !important;
+  caret-color: transparent !important;
+  user-select: none !important;
+
+  &::placeholder {
+    color: #bebec1 !important;
+  }
+}
+
+/* Estilo específico para inputs bloqueados */
+.locked-input {
+  background-color: white !important;
+
+  /* Para navegadores WebKit (Chrome, Safari) */
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-text-fill-color: #252730 !important;
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+}
+
+/* Fuerza el label a permanecer siempre en la parte superior */
+.locked-field .mat-mdc-form-field-label {
+  transform: translateY(-1.6em) scale(0.75) !important;
+  transform-origin: top left !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+/* Asegura que el campo siempre muestre el formato deseado */
+.locked-field .mat-mdc-input-element {
+  font-size: 14px !important;
+  color: #252730 !important;
+  background-color: white !important;
+}
+
+/* Fondo blanco para el campo */
+.locked-field .mdc-text-field {
+  background-color: white !important;
+
+  /* Para el outline */
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: rgba(0, 0, 0, 0.12) !important;
+  }
+}
+
+/* Quita cualquier efecto de hover o focus */
+.locked-field .mdc-text-field {
+  &:hover,
+  &.mdc-text-field--focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: rgba(0, 0, 0, 0.12) !important;
+    }
+  }
+}
+
+/* Estilo para el toggle del datepicker (deshabilitado) */
+.locked-field .mat-datepicker-toggle {
+  color: rgba(0, 0, 0, 0.38) !important;
+  pointer-events: none !important;
+}
+
+/* Asegura que el ícono esté visible pero no interactivo */
+.locked-field .mat-datepicker-toggle-button {
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+/* Elimina completamente cualquier posibilidad de focus */
+.locked-field
+  .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(
+    .mdc-text-field--textarea
+  )
+  .mat-mdc-form-field-input-control.mdc-text-field__input,
+.locked-field .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
+  cursor: default !important;
+}
+
+/* Previene selección de texto */
+.locked-field {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Asegura consistencia en todas las filas de la tabla */
+.tabla-plan-accion .locked-field {
+  opacity: 0.4 !important;
+}
+
+.tabla-plan-accion .locked-field .mat-mdc-form-field-label,
+.tabla-plan-accion .locked-field .mat-mdc-input-element,
+.tabla-plan-accion .locked-field .mat-datepicker-toggle {
+  opacity: 1 !important;
+}
+
+@media screen and (max-width: 639px) {
+  .mb-step3 {
+    margin-top: 3rem;
+  }
+}

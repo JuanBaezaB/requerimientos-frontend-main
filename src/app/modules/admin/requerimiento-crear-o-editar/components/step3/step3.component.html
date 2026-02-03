@@ -1,0 +1,305 @@
+<section [formGroup]="form()">
+  <div class="mb-7 flex justify-between">
+    <div class="flex h-10 flex-col border-l-2 border-[#006B99] pl-2">
+      <h2 class="text-sm font-semibold text-[#252730]">Paso 3</h2>
+      <p class="text-sm font-normal text-[#ABB7C2]">
+        Adjuntar los archivos que serán requeridos para completar por el
+        coordinado
+      </p>
+    </div>
+  </div>
+
+  <!-- Select para adjuntar o plan de acción -->
+  <div class="mt-4">
+    <p class="text-sm text-[#ABB7C2]">Seleccione una opción</p>
+    <div class="mt-6 flex flex-col gap-4 md:flex-row">
+      <mat-form-field appearance="outline" class="w-full max-w-[425px]">
+        <mat-label>Requerimiento</mat-label>
+        <mat-select
+          placeholder="Seleccione"
+          [value]="selectValueVisual()"
+          (selectionChange)="onOptionChange($event.value)"
+          [compareWith]="compararOpciones"
+          [disabled]="selectDisabled()"
+        >
+          <mat-option [value]="null">Seleccione</mat-option>
+          @for (opcion of opcionesPaso3; track opcion.value) {
+            <mat-option [value]="opcion">{{ opcion.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Modulo de carga de archivos-->
+  <ng-container *ngIf="modoVisual() === 'adjuntos'">
+    <div formGroupName="step3" class="mb-step3">
+      @for (
+        fileInput of fileInputGroups;
+        track fileInput.value;
+        let i = $index
+      ) {
+        <div
+          class="mb-4 flex w-full flex-wrap items-center gap-4"
+          [formGroup]="fileInput"
+        >
+          <div>
+            <mat-form-field
+              class="custom-input w-full bg-white sm:min-w-[280px]"
+            >
+              <mat-label>Título para el archivo</mat-label>
+              <input
+                matInput
+                placeholder="Ex. Titulo archivo"
+                formControlName="title"
+                maxlength="50"
+                minlength="1"
+              />
+            </mat-form-field>
+            @if (
+              fileInput.get("title")?.hasError("required") &&
+              fileInput.get("title")?.touched
+            ) {
+              <mat-error style="font-size: 12px"
+                >Título para archivo es <strong>requerido</strong></mat-error
+              >
+            }
+          </div>
+
+          <div
+            class="w-full cursor-pointer flex-col sm:min-w-[380px] md:max-w-[560px]"
+          >
+            <div
+              class="flex w-full items-center"
+              [class.opacity-40]="
+                form().get('step3')?.disabled || seEstanSubiendoArchivos()
+              "
+            >
+              <label
+                [for]="fileInput.get('id')?.value"
+                class="whitespace-nowrap rounded-l-md border border-[#CED4DA] bg-[#CED4DA] px-4 py-3 text-base text-[#272530]"
+                [class.cursor-pointer]="fileInput.enabled"
+              >
+                Adjuntar Archivo
+              </label>
+              <span
+                class="w-full truncate rounded-md rounded-l-none border border-l-0 border-[#CED4DA] bg-white px-4 py-3 text-[#272530]"
+              >
+                {{
+                  fileInput.get("fileName")?.value || "Sin archivo seleccionado"
+                }}
+              </span>
+              <input
+                type="file"
+                [id]="fileInput.get('id')?.value"
+                class="hidden"
+                [disabled]="fileInput.disabled || seEstanSubiendoArchivos()"
+                (change)="onFileSelectedMultiple($event, i)"
+              />
+            </div>
+            @if (
+              fileUploadStates()[i].isUploading ||
+              fileUploadStates()[i].uploadComplete
+            ) {
+              <div class="flex w-full items-center gap-2">
+                <mat-progress-bar
+                  class="flex-1"
+                  mode="determinate"
+                  [value]="fileUploadStates()[i].uploadProgress"
+                ></mat-progress-bar>
+                <span class="min-w-[40px] text-end text-sm text-[#666]"
+                  >{{ fileUploadStates()[i].uploadProgress }}%</span
+                >
+              </div>
+            }
+          </div>
+
+          @if (i === fileInputsArray.length - 1 && canAddNewFile()) {
+            <button
+              type="button"
+              class="flex items-center gap-2 whitespace-nowrap rounded-md border border-[#005886] bg-white px-4 py-2 text-[#006B99] transition-colors duration-200 hover:bg-[#006B99] hover:text-white disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:bg-gray-200 disabled:hover:text-gray-400"
+              (click)="addFileInput()"
+            >
+              <mat-icon style="font-size: 20px; width: 20px; height: 20px"
+                >add</mat-icon
+              >
+              Añadir archivo
+            </button>
+          }
+
+          @if (fileInputsArray.length > 1) {
+            <button
+              type="button"
+              class="flex items-center gap-2 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-100"
+              (click)="removeFileInput(i)"
+              [class.opacity-40]="
+                form().get('step3')?.disabled || seEstanSubiendoArchivos()
+              "
+              [disabled]="seEstanSubiendoArchivos()"
+            >
+              <mat-icon
+                class="material-icons-outlined text-red-600"
+                style="font-size: 16px; width: 16px; height: 16px"
+                >delete</mat-icon
+              >
+              Eliminar
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </ng-container>
+
+  <!-- Modulo de tabla Plan de acción -->
+  <ng-container *ngIf="modoVisual() === 'accion'">
+    <div class="w-full overflow-x-auto">
+      <table
+        mat-table
+        [dataSource]="planAccionControls"
+        class="mat-elevation-z8 tabla-plan-accion w-full min-w-[700px] border-collapse"
+      >
+        <ng-container matColumnDef="item">
+          <th mat-header-cell *matHeaderCellDef>Item</th>
+          <td mat-cell *matCellDef="let group; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <!-- Columna Titulo -->
+        <ng-container matColumnDef="titulo">
+          <th mat-header-cell *matHeaderCellDef>Tarea</th>
+          <td mat-cell *matCellDef="let group" [formGroup]="group">
+            <mat-form-field class="custom-input w-full">
+              <input
+                matInput
+                formControlName="tituloPlan"
+                #input
+                maxlength="100"
+                placeholder="Ej: Planificación"
+              />
+              <span matTextSuffix>
+                <span class="material-symbols-outlined" style="color: #006b99">
+                  edit
+                </span>
+              </span>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Columna Fecha inicio -->
+        <ng-container matColumnDef="fechaInicio">
+          <th mat-header-cell *matHeaderCellDef>Fecha Inicio</th>
+          <td mat-cell *matCellDef="let group" [formGroup]="group">
+            <div>
+              <mat-form-field
+                appearance="outline"
+                class="custom-date-input locked-field w-full"
+                floatLabel="always"
+                [class.opacity-40]="true"
+              >
+                <mat-label>Fecha de inicio</mat-label>
+                <input
+                  matInput
+                  formControlName="fechaInicioPlanAccion"
+                  readonly
+                  placeholder="DD/MM/YYYY"
+                  class="no-interaction locked-input"
+                  tabindex="-1"
+                  #fechaInicioInput
+                  (focus)="fechaInicioInput.blur()"
+                  [class.opacity-40]="true"
+                />
+                <!-- Ícono de calendario deshabilitado -->
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerInicio"
+                  disabled
+                  tabindex="-1"
+                  [class.opacity-40]="true"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerInicio disabled="true"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Columna Fecha término -->
+        <ng-container matColumnDef="fechaTermino">
+          <th mat-header-cell *matHeaderCellDef>Fecha Término</th>
+          <td mat-cell *matCellDef="let group" [formGroup]="group">
+            <div>
+              <mat-form-field
+                appearance="outline"
+                class="custom-date-input locked-field w-full"
+                floatLabel="always"
+                [class.opacity-40]="true"
+              >
+                <mat-label>Fecha de vencimiento</mat-label>
+                <input
+                  matInput
+                  formControlName="fechaTerminoPlanAccion"
+                  readonly
+                  placeholder="DD/MM/YYYY"
+                  class="no-interaction locked-input"
+                  tabindex="-1"
+                  #fechaTerminoInput
+                  (focus)="fechaTerminoInput.blur()"
+                  [class.opacity-40]="true"
+                />
+                <!-- Ícono de calendario deshabilitado -->
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerTermino"
+                  disabled
+                  tabindex="-1"
+                  [class.opacity-40]="true"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerTermino disabled="true"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Columna Seguimiento -->
+        <ng-container matColumnDef="seguimiento">
+          <th mat-header-cell *matHeaderCellDef>Seguimiento</th>
+          <td mat-cell *matCellDef="let group" [formGroup]="group">
+            <mat-checkbox formControlName="seguimiento"></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Columna Acción -->
+        <ng-container matColumnDef="accion">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let group; let i = index">
+            <button
+              mat-icon-button
+              (click)="eliminarFila(i)"
+              [disabled]="i === 0"
+              [ngClass]="{ 'disabled-delete': i === 0 }"
+              matTooltip="La primera fila no puede ser eliminada"
+            >
+              <span class="material-symbols-outlined" style="color: #842029">
+                delete
+              </span>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnasVisibles"></tr>
+      </table>
+    </div>
+
+    <div class="mt-4 flex justify-end">
+      <button
+        class="btn-borrador rounded-lg bg-white px-6 py-3 text-sm font-medium text-[#006B99] transition-colors enabled:hover:bg-[#F8F9FA]"
+        mat-raised-button
+        color="primary"
+        (click)="agregarFila()"
+      >
+        + Añadir ítem
+      </button>
+    </div>
+  </ng-container>
+
+  <div class="mb-5 mt-8 h-[1px] w-full bg-[#E0E0E0]"></div>
+</section>

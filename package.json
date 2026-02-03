@@ -1,0 +1,72 @@
+{
+  "name": "requerimientos-frontend-main",
+  "version": "0.0.1",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "audit:ci": "pnpm audit --registry=https://registry.npmjs.org/ --audit-level=moderate",
+    "prepare": "husky || true",
+    "detect-secrets": "npx secretlint \"**/*\" --secretlintignore .secretlintignore",
+    "detect-secrets:ci": "npx secretlint --maskSecrets \"**/*\" --secretlintignore .secretlintignore",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:ci": "eslint \"{src,apps,libs,test}/**/*.ts\""
+  },
+  "private": true,
+  "dependencies": {
+    "@angular-architects/native-federation": "^19.0.23",
+    "@angular/animations": "19.2.17",
+    "@angular/cdk": "19.2.6",
+    "@angular/common": "19.2.17",
+    "@angular/compiler": "19.2.17",
+    "@angular/core": "19.2.17",
+    "@angular/forms": "19.2.17",
+    "@angular/material": "19.2.6",
+    "@angular/platform-browser": "19.2.17",
+    "@angular/platform-browser-dynamic": "19.2.17",
+    "@angular/router": "19.2.17",
+    "@ngrx/signals": "^19.2.1",
+    "@softarc/native-federation-node": "^2.0.28",
+    "angular-oauth2-oidc": "17.0.2",
+    "es-module-shims": "^1.10.1",
+    "jwt-decode": "^4.0.0",
+    "ngx-skeleton-loader": "^11.3.0",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1",
+    "zone.js": "~0.15.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^19.2.19",
+    "@angular/cli": "^19.2.19",
+    "@angular/compiler-cli": "^19.2.16",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@types/jasmine": "~5.1.13",
+    "@types/node": "^22.19.1",
+    "autoprefixer": "^10.4.22",
+    "globals": "^15.15.0",
+    "husky": "^9.1.7",
+    "jasmine-core": "~5.4.0",
+    "karma": "~6.4.4",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.1",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "postcss": "^8.5.6",
+    "prettier": "^3.7.1",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "tailwindcss": "^3.4.18",
+    "typescript": "~5.6.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "qs@<6.14.1": ">=6.14.1",
+      "tar@<=7.5.2": ">=7.5.3",
+      "tar@<=7.5.3": ">=7.5.4",
+      "lodash@>=4.0.0 <=4.17.22": ">=4.17.23",
+      "tar@<7.5.7": ">=7.5.7"
+    }
+  }
+}

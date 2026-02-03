@@ -1,0 +1,33 @@
+<mat-dialog-content>
+  <div class="mb-[10px] flex w-fit items-center rounded-lg bg-[#CFE2FF] p-2">
+    <mat-icon style="width: 32px; height: 32px; font-size: 32px"
+      ><span
+        style="font-size: 32px"
+        class="material-symbols-outlined text-[#006B99]"
+      >
+        info
+      </span></mat-icon
+    >
+  </div>
+  <strong>Enviar información</strong>
+  <br />
+  <p class="mb-4 text-sm">
+    ¿Está seguro de enviar la información a Coordinador? <br />
+    Esta respuesta reemplazará la anterior.
+  </p>
+  <br />
+  <div class="flex gap-3">
+    <button
+      (click)="closeDialog()"
+      class="w-full rounded-lg py-3 text-base font-semibold text-[#006B99] hover:bg-[#006B99]/10"
+    >
+      Volver
+    </button>
+    <button
+      (click)="enviarAlCoordinador()"
+      class="flex w-full items-center justify-center rounded-lg bg-[#006B99] py-3 text-base font-semibold text-white"
+    >
+      Enviar
+    </button>
+  </div>
+</mat-dialog-content>

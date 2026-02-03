@@ -1,0 +1,131 @@
+.auto-width {
+  width: auto;
+  display: inline-block;
+}
+.custom-expansion-panel.mat-expansion-panel {
+  background-color: #fff;
+  border: 1px solid #5a5a5a;
+  --mat-expansion-header-hover-state-layer-color: white;
+  --mat-sys-on-surface: #252730;
+  --mat-expansion-header-text-color: #252730;
+}
+
+.custom-expansion-panel.mat-expansion-panel-spacing {
+  margin: 10px 0;
+}
+
+.custom-expansion-panel.mat-expansion-panel .mat-expansion-panel-header {
+  padding: 0 16px;
+}
+
+.custom-expansion-panel.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+}
+
+::ng-deep .custom-expansion-panel .mat-expansion-panel-content {
+  background-color: #fff;
+}
+
+::ng-deep .custom-expansion-panel .mat-expansion-panel-body {
+  padding: 0 16px 10px 16px;
+}
+
+@media only screen and (max-width: 639px) {
+  .main-component-mb {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .main-component-mb-button {
+    align-self: center !important;
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+
+  .main-select-component-mb {
+    align-self: center !important;
+    width: 100% !important;
+  }
+
+  // Widget de Reintentar
+  .error-component-mb {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .error-content-mb {
+    justify-content: center !important;
+  }
+
+  .retry-button-mb {
+    align-self: center !important;
+    width: 100% !important;
+    max-width: 280px;
+  }
+
+  // Widget de Warning de Reintentar
+  .warn-component-mb > div {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    text-align: center;
+    align-items: center !important;
+  }
+
+  .warn-component-mb p {
+    margin: 0 !important;
+  }
+}
+
+/* OPCIÓN 1: Cambiar color globally para todos los form fields */
+::ng-deep
+  .mat-mdc-form-field.mat-form-field-invalid
+  .mat-mdc-text-field-wrapper {
+  --mdc-outlined-text-field-error-outline-color: #79747e !important; /* Azul en lugar de rojo */
+  --mdc-outlined-text-field-error-focus-outline-color: #79747e !important;
+}
+
+::ng-deep
+  .mat-mdc-form-field.mat-form-field-invalid
+  .mat-mdc-form-field-error-wrapper {
+  color: #79747e !important; /* Color del texto de error */
+}
+/* IMPORTANTE: Cambiar el color del label cuando está en error */
+::ng-deep .mat-mdc-form-field.mat-form-field-invalid .mat-mdc-floating-label {
+  --mdc-outlined-text-field-error-label-text-color: #79747e !important;
+  color: #79747e !important;
+}
+
+.nuevo-requerimiento-btn {
+  width: 220px;
+}
+
+// Mobile
+@media screen and (max-width: 639px) {
+  form {
+    .filtros-container {
+      flex-direction: column !important;
+      align-items: stretch !important;
+    }
+
+    mat-form-field {
+      width: 100% !important;
+      min-width: auto !important;
+      max-width: 100% !important;
+    }
+
+    button.buscar-btn {
+      width: 100% !important;
+      margin-top: 8px !important;
+    }
+  }
+
+  .nuevo-requerimiento-btn {
+    width: 100% !important;
+    border-radius: 8px !important;
+  }
+}

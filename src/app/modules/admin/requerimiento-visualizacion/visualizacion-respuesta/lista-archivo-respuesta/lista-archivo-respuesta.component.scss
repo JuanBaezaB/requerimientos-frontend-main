@@ -1,0 +1,53 @@
+.widget-archivo {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.btn-descarga {
+  color: #006b99;
+  font-weight: bold;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 8px;
+}
+
+.archivo-nombre-componente {
+  flex-direction: row;
+}
+.btn-descarga:hover {
+  background-color: #dee7ff;
+}
+.icono-save {
+  color: #006b99;
+  font-size: 24px;
+  padding: 6px;
+  border: 1px solid #d2d3d3;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.contenedor-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+@media screen and (max-width: 639px) {
+  .archivo-nombre-componente {
+    flex-direction: column !important; // pasa el botón abajo
+    align-items: stretch !important; // hace que ocupe todo el ancho
+  }
+
+  .btn-descarga {
+    width: 100%; // el botón ocupa todo el ancho
+    text-align: center;
+  }
+
+  .widget-archivo {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0px !important;
+    margin-right: 60px !important;
+  }
+}

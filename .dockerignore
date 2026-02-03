@@ -1,0 +1,15 @@
+.git/
+.gitignore
+azure-pipelines.yml
+dist
+jest.config.ts
+.eslintrc.js
+.prettierrc
+test/
+README.md
+node_modules/
+Dockerfile
+.dockerignore
+manifests
+.vscode
+coverage

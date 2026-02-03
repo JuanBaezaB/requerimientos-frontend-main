@@ -1,0 +1,110 @@
+<section class="w-full overflow-x-auto">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- No. Requerimiento -->
+    <ng-container matColumnDef="noRequerimiento">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Número de Requerimiento
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.noRequerimiento || "-" }}
+      </td>
+    </ng-container>
+
+    <!-- Título -->
+    <ng-container matColumnDef="titulo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Título</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.titulo || "-" }}
+      </td>
+    </ng-container>
+
+    <!-- Fecha de Vencimiento -->
+    <ng-container matColumnDef="fechaDeVencimiento">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Vencimiento</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element?.fechaDeVencimiento
+            ? (element.fechaDeVencimiento | date: "dd/MM/yyyy")
+            : "-"
+        }}
+      </td>
+    </ng-container>
+
+    <!-- Estado -->
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.estado || "-" }}
+      </td>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="flex items-center gap-4 text-gray-500">
+          <span
+            *ngIf="element.estado !== 'Borrador'"
+            class="material-symbols-outlined cursor-pointer"
+            matTooltip="Ver detalle"
+            (click)="irAVisualizarRequerimiento(element)"
+          >
+            visibility
+          </span>
+          @if (element.estado === "Publicado") {
+            <span
+              class="material-symbols-outlined cursor-pointer"
+              matTooltip="Cambio fecha de vencimiento"
+              (click)="abrirCambioFecha(element)"
+            >
+              today
+            </span>
+          }
+          <span
+            *ngIf="element.estado === 'Borrador'"
+            class="material-symbols-outlined cursor-pointer"
+            matTooltip="Editar requerimiento"
+            (click)="irAEditarRequerimiento(element)"
+          >
+            edit
+          </span>
+          <span
+            *ngIf="element.estado === 'Borrador'"
+            class="material-symbols-outlined cursor-pointer"
+            matTooltip="Eliminar requerimiento"
+            (click)="eliminarRequerimiento(element)"
+          >
+            delete
+          </span>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Filas de encabezado y datos -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <!-- Fila para tabla vacía -->
+    <tr class="bg-gray-50" mat-no-data-row>
+      <td [attr.colspan]="displayedColumns.length" class="py-4 text-center">
+        No hay requerimientos disponibles
+      </td>
+    </tr>
+  </table>
+</section>
+
+<mat-paginator
+  style="background-color: white; margin-top: 32px"
+  [length]="requerimientoStore.metadata().totalItems"
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  [pageSize]="requerimientoStore.metadata().itemsPerPage"
+  [pageIndex]="requerimientoStore.metadata().currentPage - 1"
+  (page)="onPaginateChange($event)"
+>
+</mat-paginator>
+
+<app-cambio-fecha-drawer
+  [drawerOpen]="drawerOpen()"
+  (drawerClosed)="cerrarCambioFecha()"
+  [dataElement]="elementoSeleccionado()"
+></app-cambio-fecha-drawer>

@@ -1,0 +1,66 @@
+<!-- Vista mobile -->
+<div class="mobile-view mb-6 flex flex-col">
+  <div>
+    <p>RUT</p>
+    <p>
+      <strong>{{ headerDetalleVisualizar()?.rut }}</strong>
+    </p>
+  </div>
+
+  <div>
+    <p>Coordinado</p>
+    <p>
+      <strong>{{ headerDetalleVisualizar()?.nombre }}</strong>
+    </p>
+  </div>
+
+  <div>
+    <p>Número de Requerimiento</p>
+    <p>
+      <strong>
+        {{ headerDetalleVisualizar()?.numeroRequerimiento }}
+      </strong>
+    </p>
+  </div>
+
+  <div>
+    <p>Fecha de Vencimiento</p>
+    <p>
+      <strong>
+        {{ headerDetalleVisualizar()?.fechaVencimiento | date: "dd/MM/YYYY" }}
+      </strong>
+    </p>
+  </div>
+</div>
+
+<!-- Vista Desktop -->
+<div class="desktop-view mb-6 flex">
+  <div class="mr-[5%] w-[150px]">
+    <p>RUT</p>
+    <p>
+      <strong>{{ headerDetalleVisualizar()?.rut }}</strong>
+    </p>
+  </div>
+
+  <div class="mr-8 w-[265px]">
+    <p>Coordinado</p>
+    <p>
+      <strong>{{ headerDetalleVisualizar()?.nombre }}</strong>
+    </p>
+  </div>
+
+  <div class="mr-8 w-[265px]">
+    <p>Número de Requerimiento</p>
+    <p>
+      <strong>{{ headerDetalleVisualizar()?.numeroRequerimiento }}</strong>
+    </p>
+  </div>
+  <div class="w-[265px]">
+    <p>Fecha de Vencimiento</p>
+    <p>
+      <strong>{{
+        headerDetalleVisualizar()?.fechaVencimiento | date: "dd/MM/YYYY"
+      }}</strong>
+    </p>
+  </div>
+</div>

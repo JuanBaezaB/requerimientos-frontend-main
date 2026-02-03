@@ -1,0 +1,102 @@
+table {
+  width: 100%;
+}
+
+.tabla-formulario {
+  overflow-x: auto;
+}
+
+.mat-mdc-row {
+  background: white;
+  height: 38px;
+}
+
+.mat-mdc-cell {
+  border-bottom: 0.78px solid #eaecf0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #252730;
+  font-weight: 400;
+}
+
+.mdc-data-table__cell {
+  padding: 10px 18px;
+}
+
+.mat-mdc-header-row {
+  background: #fcfcfd;
+  font-size: 14px;
+  font-weight: 400;
+  color: #667085;
+  font-weight: 400;
+}
+
+.mat-mdc-header-cell {
+  border-bottom: 0.78px solid #eaecf0;
+  white-space: nowrap;
+}
+
+.mdc-data-table__header-cell {
+  padding: 10px 18px;
+}
+
+.tabla-plan-accion {
+  margin-top: 36px;
+}
+
+.tabla-plan-accion th.mat-header-cell {
+  background-color: #eaecf0;
+  font-weight: 400;
+  font-size: 16px;
+}
+::ng-deep .mat-mdc-row {
+  background-color: white !important;
+}
+
+/* Item: ancho mínimo */
+.tabla-plan-accion .mat-column-item {
+  width: 30px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Titulo: Ocupa al menos 40% de la tabla*/
+.tabla-plan-accion .mat-column-titulo {
+  width: 47%;
+}
+
+.tabla-plan-accion .mat-column-fechaInicio {
+  width: 26%;
+}
+
+.tabla-plan-accion .mat-column-fechaTermino {
+  width: 26%;
+}
+
+.tabla-plan-accion {
+  h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    font-weight: 600;
+    background-color: #f4f4f4;
+  }
+
+  td,
+  th {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  tr:hover {
+    background: #fafafa;
+  }
+}

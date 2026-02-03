@@ -1,0 +1,8 @@
+include:
+  # ruta relativa del repositorio de plantillas en gitlab
+  - project: "00-arquitectura/gitlab-ci-pipeline"
+    # rama del proyecto
+    ref: master
+    # ruta relativa de la plantilla de pipeline dentro del repositorio de plantillas, este cambia según el framework a utilizar si es springboot deberá ser springboot.yml
+    file:
+      - "templates-omnicanal-front/ci-template.yml"

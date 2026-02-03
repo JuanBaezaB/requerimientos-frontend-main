@@ -1,0 +1,218 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+<!-- Header Section -->
+<div class="w-full bg-white p-4">
+  <!-- Vista dinámica -->
+  <section class="mt-6">
+    <section class="mt-6 flex w-full gap-9">
+      <form [formGroup]="filtersGroup" class="flex w-full flex-col">
+        <div
+          class="main-component-mb flex w-full flex-wrap items-center justify-between gap-4"
+        >
+          <mat-form-field
+            appearance="outline"
+            style="width: 255px"
+            class="min-w-[200px] flex-1"
+          >
+            <mat-label>Número de requerimiento</mat-label>
+            <input
+              matInput
+              type="text"
+              inputmode="numeric"
+              placeholder="Escribe al menos 3 caracteres"
+              formControlName="noRequerimiento"
+              [matAutocomplete]="autoNumero"
+              #numeroAutoTrigger="matAutocompleteTrigger"
+              (keypress)="soloNumeros($event)"
+            />
+
+            <button
+              *ngIf="filtersGroup.get('noRequerimiento')?.value"
+              matSuffix
+              mat-icon-button
+              aria-label="Limpiar"
+              (click)="filtersGroup.get('noRequerimiento')?.setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete
+              #autoNumero="matAutocomplete"
+              (optionSelected)="onSelectNumero($event.option.value)"
+            >
+              <mat-option
+                *ngFor="let opcion of opcionesNumero"
+                [value]="opcion.correlativo"
+              >
+                {{ opcion.correlativo }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            style="width: 255px"
+            class="min-w-[200px] flex-1"
+          >
+            <mat-label>Título</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Escribe al menos 3 caracteres"
+              formControlName="titulo"
+              [matAutocomplete]="autoTitulo"
+              #tituloAutoTrigger="matAutocompleteTrigger"
+            />
+
+            <button
+              *ngIf="filtersGroup.get('titulo')?.value"
+              matSuffix
+              mat-icon-button
+              aria-label="Limpiar"
+              (click)="filtersGroup.get('titulo')?.setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+
+            <mat-autocomplete
+              #autoTitulo="matAutocomplete"
+              (optionSelected)="onSelectTitulo($event.option.value)"
+            >
+              <mat-option
+                *ngFor="let opcion of opcionesTitulo"
+                [value]="opcion.titulo"
+              >
+                {{ opcion.titulo }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Estado</mat-label>
+            <mat-select
+              #estadoSelect
+              formControlName="estados"
+              (selectionChange)="onChangeEstado($event)"
+              multiple
+            >
+              <mat-select-trigger>{{ estadoDisplay }}</mat-select-trigger>
+              <mat-option
+                value="__ALL__"
+                (onSelectionChange)="onToggleTodos($event)"
+                >Todos</mat-option
+              >
+              <mat-option value="Publicado">Publicado</mat-option>
+              <mat-option value="Cerrado">Cerrado</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="flex-1"
+            formGroupName="rangoFechas"
+          >
+            <mat-label>Fecha de vencimiento</mat-label>
+            <mat-date-range-input
+              [rangePicker]="picker"
+              (dateChange)="onChangeFecha()"
+              [dateFilter]="endDateFilter"
+            >
+              <input
+                matStartDate
+                formControlName="inicio"
+                placeholder="DD/MM/YYYY"
+                [min]="store.minDate()"
+                [max]="store.maxDate()"
+              />
+              <input
+                matEndDate
+                formControlName="fin"
+                placeholder="DD/MM/YYYY"
+                [min]="store.minDate()"
+                [max]="store.maxDate()"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            @if (
+              rangoFechas.controls["inicio"].hasError("matStartDateInvalid")
+            ) {
+              <mat-error>Fecha de inicio inválida</mat-error>
+            }
+            @if (rangoFechas.controls["fin"].hasError("matEndDateInvalid")) {
+              <mat-error>Fecha fin inválida</mat-error>
+            }
+            @if (rangoFechas.touched && store.rangoIncompleto()) {
+              <mat-error
+                >Seleccione ambas fechas para completar el rango</mat-error
+              >
+            }
+            @if (
+              rangoFechas.controls["inicio"].hasError("required") &&
+              (rangoFechas.controls["inicio"].touched || mostroBusqueda())
+            ) {
+              <mat-error>La fecha de inicio es obligatoria</mat-error>
+            }
+
+            @if (
+              rangoFechas.controls["fin"].hasError("required") &&
+              (rangoFechas.controls["fin"].touched || mostroBusqueda())
+            ) {
+              <mat-error>La fecha de fin es obligatoria</mat-error>
+            }
+          </mat-form-field>
+
+          <button
+            (click)="onSubmit()"
+            class="buscar-btn mt-[-20px] flex h-[56px] items-center justify-center rounded-lg bg-[#006B99] px-7 text-sm font-semibold text-white"
+            [disabled]="store.cargandoTabla()"
+            [class.opacity-40]="store.cargandoTabla()"
+          >
+            <mat-icon style="width: 24px; height: 24px; font-size: 24px">
+              <span
+                class="material-icons-round text-white"
+                style="font-size: 24px"
+              >
+                search
+              </span>
+            </mat-icon>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    @if (mostrarWarning() && !store.cargandoTabla()) {
+      <section class="mb-5 mt-5 rounded-lg bg-[#FFF3CD] pb-4 pl-6 pt-4">
+        <div class="flex items-center gap-3">
+          <span
+            class="material-symbols-outlined text-[#523E02]"
+            style="font-size: 40px"
+          >
+            warning
+          </span>
+          <span
+            >Sin resultados para mostrar. Por favor, intente con otras
+            opciones.</span
+          >
+        </div>
+      </section>
+    }
+
+    @if (store.cargandoTabla()) {
+      <section>
+        <div class="m-auto items-center">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+      </section>
+    } @else {
+      <section>
+        <app-tabla-coordinado-root></app-tabla-coordinado-root>
+      </section>
+    }
+  </section>
+</div>

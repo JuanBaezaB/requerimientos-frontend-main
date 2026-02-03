@@ -1,0 +1,77 @@
+<section [formGroup]="form()">
+  <div class="mb-7 flex justify-between">
+    <div class="flex h-10 flex-col border-l-2 border-[#006B99] pl-2">
+      <h2 class="text-sm font-semibold text-[#252730]">Paso 4</h2>
+      <p class="text-sm font-normal text-[#ABB7C2]">
+        Puede filtrar por uno o varios segmentos o seleccionar directamente a
+        los coordinados.
+      </p>
+    </div>
+  </div>
+  <div class="mb-step4 flex flex-col gap-7 md:flex-row" formGroupName="step4">
+    <mat-form-field appearance="outline" class="w-full max-w-[330px]">
+      <mat-label>Segmentos</mat-label>
+      <mat-select multiple placeholder="Seleccione " formControlName="segmento">
+        <mat-select-trigger>
+          @if (form().get("step4.segmento")?.value?.length > 0) {
+            {{ form().get("step4.segmento")?.value[0]?.nombre || "" }}
+            @if ((form().get("step4.segmento")?.value?.length || 0) > 1) {
+              <span>
+                (+{{ (form().get("step4.segmento")?.value?.length || 0) - 1 }}
+                {{
+                  form().get("step4.segmento")?.value?.length === 2
+                    ? "seleccionado"
+                    : "seleccionados"
+                }})
+              </span>
+            }
+          }
+        </mat-select-trigger>
+        @for (segment of segments(); track segment.codigo) {
+          <mat-option [value]="segment">{{ segment.nombre }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full max-w-[330px]">
+      <mat-label>Coordinado</mat-label>
+      <mat-select
+        multiple
+        placeholder="Seleccione "
+        formControlName="coordinador"
+      >
+        <mat-select-trigger>
+          {{ form().get("step4.coordinador")?.value[0]?.nombreFantasia || "" }}
+          @if ((form().get("step4.coordinador")?.value?.length || 0) > 1) {
+            <span>
+              (+{{ (form().get("step4.coordinador")?.value?.length || 0) - 1 }}
+              {{
+                form().get("step4.coordinador")?.value?.length === 2
+                  ? "seleccionado"
+                  : "seleccionados"
+              }})
+            </span>
+          }
+        </mat-select-trigger>
+        @for (coordinado of coordinados(); track coordinado) {
+          <mat-option [value]="coordinado">{{
+            coordinado.nombreFantasia
+          }}</mat-option>
+        }
+      </mat-select>
+
+      <button
+        mat-icon-button
+        matSuffix
+        *ngIf="form().get('step4.coordinador')?.value?.length"
+        (click)="form().get('step4.coordinador')?.setValue([])"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      @if (form().get("step4.coordinador")?.hasError("required")) {
+        <mat-error> Coordinado es <strong>requerido</strong></mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div class="mb-5 mt-8 h-[1px] w-full bg-[#E0E0E0]"></div>
+</section>

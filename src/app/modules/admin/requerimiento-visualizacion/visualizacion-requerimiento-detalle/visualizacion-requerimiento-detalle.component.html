@@ -1,0 +1,206 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+<div class="w-full bg-white p-4">
+  <!-- Widget Header Info -->
+  <app-header-detalle-info> </app-header-detalle-info>
+  <!-- Widget Header Info -->
+
+  <!-- Divider -->
+  <div class="mb-8 mt-8 h-[1px] w-full bg-slate-400"></div>
+  <!-- Divider -->
+
+  <!-- Filtros para tabla de visualizacion -->
+  <section class="mt-6">
+    <section class="main-component-mb mt-6 flex w-full gap-9">
+      <form [formGroup]="filtersGroup" class="flex w-full flex-col">
+        <div class="mb-view-filtros flex w-full flex-wrap items-center gap-3">
+          <mat-form-field
+            appearance="outline"
+            class="min-w-[200px] max-w-[375px] flex-1"
+            [class.opacity-40]="
+              visualizarDetalleStore.cargandoListaInteresados()
+            "
+          >
+            <mat-label>Coordinados</mat-label>
+            <mat-select
+              #coordinadosSelect
+              formControlName="coordinados"
+              (selectionChange)="onChangeCoordinados($event)"
+              multiple
+            >
+              <mat-select-trigger>{{ coordinadosDisplay }}</mat-select-trigger>
+              <mat-option
+                value="__ALL__"
+                (onSelectionChange)="onToggleCoordinados($event)"
+                >Todos
+              </mat-option>
+
+              @for (
+                coordinado of visualizarDetalleStore.listaInteresados();
+                track coordinado.id
+              ) {
+                <mat-option [value]="coordinado.id">
+                  {{ coordinado.nombreFantasia }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="min-w-[200px] max-w-[375px] flex-1"
+          >
+            <mat-label>Respuesta</mat-label>
+            <mat-select
+              #respuestaSelect
+              formControlName="respuestas"
+              (selectionChange)="onChangeRespuestas($event)"
+              multiple
+            >
+              <mat-select-trigger>{{ respuestaDisplay }}</mat-select-trigger>
+              <mat-option
+                value="__ALL__"
+                (onSelectionChange)="onToggleRespuestas($event)"
+                >Ambas</mat-option
+              >
+              <mat-option value="Si">Si</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="min-w-[200px] max-w-[375px] flex-1"
+            formGroupName="rangoFechas"
+          >
+            <mat-label>Fecha respuesta</mat-label>
+            <mat-date-range-input
+              [rangePicker]="picker"
+              (dateChange)="onChangeFecha()"
+              [dateFilter]="endDateFilter"
+            >
+              <input
+                matStartDate
+                formControlName="inicio"
+                placeholder="DD/MM/YYYY"
+                [min]="visualizarDetalleStore.minDate()"
+                [max]="visualizarDetalleStore.maxDate()"
+              />
+              <input
+                matEndDate
+                formControlName="fin"
+                placeholder="DD/MM/YYYY"
+                [min]="visualizarDetalleStore.minDate()"
+                [max]="visualizarDetalleStore.maxDate()"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            @if (
+              rangoFechas.controls["inicio"].hasError("matStartDateInvalid")
+            ) {
+              <mat-error>Fecha de inicio inválida</mat-error>
+            }
+            @if (rangoFechas.controls["fin"].hasError("matEndDateInvalid")) {
+              <mat-error>Fecha fin inválida</mat-error>
+            }
+            @if (
+              rangoFechas.touched && visualizarDetalleStore.rangoIncompleto()
+            ) {
+              <mat-error
+                >Seleccione ambas fechas para completar el rango</mat-error
+              >
+            }
+            @if (
+              rangoFechas.controls["inicio"].hasError("required") &&
+              (rangoFechas.controls["inicio"].touched || mostroBusqueda())
+            ) {
+              <mat-error>La fecha de inicio es obligatoria</mat-error>
+            }
+
+            @if (
+              rangoFechas.controls["fin"].hasError("required") &&
+              (rangoFechas.controls["fin"].touched || mostroBusqueda())
+            ) {
+              <mat-error>La fecha de fin es obligatoria</mat-error>
+            }
+          </mat-form-field>
+
+          <button
+            (click)="onSubmit()"
+            class="buscar-btn mt-[-20px] flex h-[56px] items-center justify-center rounded-lg bg-[#006B99] px-7 text-sm font-semibold text-white"
+          >
+            <mat-icon style="width: 24px; height: 24px; font-size: 24px">
+              <span
+                class="material-icons-round text-white"
+                style="font-size: 24px"
+              >
+                search
+              </span>
+            </mat-icon>
+          </button>
+        </div>
+      </form>
+    </section>
+  </section>
+  <!-- Filtros para tabla de visualizacion -->
+
+  <!-- Botones de recordatorio y descargar -->
+  <section class="flex flex-row justify-end">
+    <button
+      class="btn-enviar-recordatorio disabled:cursor-not-allowed"
+      (click)="enviarRecordatorioAlert()"
+      [disabled]="
+        detalleVisualizar()?.estado === 'Cerrado' ||
+        detalleVisualizar()?.pendientes! == 0
+      "
+      [class.opacity-40]="
+        detalleVisualizar()?.estado === 'Cerrado' ||
+        detalleVisualizar()?.pendientes! == 0
+      "
+    >
+      Enviar recordatorio
+    </button>
+
+    @if (detalleVisualizar()?.tipo === "Con archivos adjuntos") {
+      <button
+        class="btn-descargar-archivos-adjuntos flex"
+        (click)="onDescargarArchivos()"
+        [disabled]="seleccionadosValidos() === 0"
+        [class.opacity-40]="seleccionadosValidos() === 0"
+      >
+        @if (visualizarRespuestaStore.obteniendoUrlDescarga()) {
+          <mat-spinner diameter="22" color="primary"></mat-spinner>
+          &nbsp;&nbsp;Descargando...
+        } @else {
+          <span class="material-symbols-outlined"> download </span>
+          &nbsp;&nbsp;Descargar archivos
+        }
+      </button>
+    } @else {
+      <button
+        class="btn-descargar-archivos-adjuntos flex"
+        (click)="onDescargarArchivos()"
+        [disabled]="true"
+        [class.opacity-40]="true"
+      >
+        <span class="material-symbols-outlined"> download </span>
+        &nbsp;&nbsp;Descargar archivos
+      </button>
+    }
+  </section>
+  <!-- Botones de recordatorio y descargar -->
+  <div class="mt-6 h-[1px] w-full"></div>
+
+  <!-- tabla visualizacion -->
+  <app-tabla-visualizacion-detalle
+    (selectionChange)="onSelectionChange($event)"
+  ></app-tabla-visualizacion-detalle>
+  <!-- tabla visualizacion -->
+</div>

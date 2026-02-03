@@ -1,0 +1,40 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+<mat-dialog-content>
+  <div class="flex flex-col justify-center">
+    <div class="warning-icon">
+      <span class="material-symbols-outlined" style="font-size: 38px">
+        warning
+      </span>
+    </div>
+    <div style="margin-bottom: 16px">
+      <strong
+        class="perder-cambios-title"
+        style="font-size: 16px; color: #252730"
+        >Eliminar requerimiento</strong
+      >
+      <br />
+      <p class="text-sm">
+        ¿Está usted seguro que desea eliminar el requerimiento? Usted perderá la
+        información ingresada
+      </p>
+    </div>
+
+    <div class="flex w-full justify-center gap-2">
+      <button
+        (click)="closeDialog()"
+        class="px-11 py-3 text-base font-semibold"
+      >
+        Volver
+      </button>
+      <button
+        class="w-full rounded-lg bg-[#006B99] px-8 py-3 text-base font-semibold text-white"
+        (click)="cerrarYActualizarPaginaActual()"
+      >
+        Si, Eliminar
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>

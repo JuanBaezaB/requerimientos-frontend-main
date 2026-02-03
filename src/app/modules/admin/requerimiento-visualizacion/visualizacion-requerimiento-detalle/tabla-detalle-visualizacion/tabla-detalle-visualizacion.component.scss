@@ -1,0 +1,90 @@
+/* Contenedor de tabla desplazable */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Suaviza el scroll en móviles */
+}
+
+/* Tabla interna */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Evita que se encoja demasiado en pantallas pequeñas */
+}
+
+/* Celdas */
+.mat-mdc-row {
+  background: white;
+  height: 38px;
+}
+
+.mat-mdc-cell {
+  border-bottom: 0.78px solid #eaecf0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #252730;
+  font-weight: 400;
+}
+
+.mdc-data-table__cell {
+  padding: 10px 18px;
+}
+
+/* Encabezados */
+.mat-mdc-header-row {
+  background: #fcfcfd;
+  font-size: 14px;
+  color: #667085;
+  font-weight: 400;
+}
+
+.mat-mdc-header-cell {
+  border-bottom: 0.78px solid #eaecf0;
+  white-space: nowrap;
+}
+
+.mdc-data-table__header-cell {
+  padding: 10px 18px;
+}
+
+/* Texto centrado */
+.text-center {
+  text-align: center;
+}
+
+/* Info coordinados */
+.info-coordinados-seleccionados {
+  background-color: #d1d6dc;
+  padding: 16px 0 16px 140px;
+  text-align: center;
+}
+
+.seleccion-coorinados {
+  padding-left: 16px;
+  color: #006b99;
+}
+
+/* Widget warning */
+.warn-component-mb > div {
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+  text-align: center;
+  align-items: center !important;
+}
+
+.warn-component-mb p {
+  margin: 0 !important;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .table-container {
+    padding: 0 8px;
+  }
+
+  .mat-column-fecha,
+  .mat-column-nombreCortoProceso,
+  .mat-column-anio {
+    position: static !important;
+  }
+}

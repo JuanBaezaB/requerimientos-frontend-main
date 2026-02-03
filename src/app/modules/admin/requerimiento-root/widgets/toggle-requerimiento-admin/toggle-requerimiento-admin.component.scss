@@ -1,0 +1,31 @@
+/* Estilo para el contenedor del grupo de botones */
+mat-button-toggle-group {
+  border-radius: 50px; /* Hace los bordes redondeados como una píldora */
+  border: 1px solid #006b99; /* Añade un borde delgado azul (ajusta el color si es necesario) */
+}
+
+/* Estilo general para cada botón dentro del grupo */
+mat-button-toggle {
+  background-color: white; /* Fondo blanco por defecto */
+  color: #252730; /* Color de texto oscuro por defecto (ajusta si es necesario) */
+  border: none !important; /* Remueve cualquier borde interno entre botones */
+}
+
+::ng-deep .mat-button-toggle-animations-enabled .mat-button-toggle-button {
+  padding: 0px 10px !important;
+}
+
+/* Estilo específico para el botón SELECCIONADO */
+mat-button-toggle.mat-button-toggle-checked {
+  background-color: #006b99; /* Fondo azul cuando está seleccionado (usa el color exacto de tu imagen) */
+  color: white; /* Texto blanco cuando está seleccionado */
+}
+
+@media screen and (max-width: 639px) {
+  mat-button-toggle-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 1rem;
+  }
+}

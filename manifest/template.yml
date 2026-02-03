@@ -1,0 +1,110 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  demo: <APP_NAME_TEM>
+metadata:
+  annotations:
+    description: Portal Omnicanal
+    iconClass: angualar
+    tags: angular
+  name: <APP_NAME_TEM>
+  namespace: <NAME_SPACE>
+objects:
+  - apiVersion: image.openshift.io/v1
+    kind: ImageStream
+    metadata:
+      name: <APP_NAME>
+      namespace: <NAME_SPACE>
+      labels:
+        application: <APP_NAME>
+        app: <APP_NAME>
+        app.kubernetes.io/component: <APP_NAME>
+        app.kubernetes.io/instance: <APP_NAME>
+        app.kubernetes.io/name: <APP_NAME>
+    spec:
+      tags:
+        - name: <GIT_COMMIT>
+          annotations:
+            openshift.io/generated-by: OpenShiftWebConsole
+            openshift.io/imported-from: <GITLAB_REGISTRY>:<GIT_COMMIT>
+          from:
+            kind: DockerImage
+            name: <GITLAB_REGISTRY>:<GIT_COMMIT>
+          generation: 2
+          importPolicy:
+            insecure: true
+          referencePolicy:
+            type: Local
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+        name: <APP_NAME>
+        namespace: <NAME_SPACE>
+        labels:
+          application: <APP_NAME>
+          app.kubernetes.io/part-of: <APP_GROUP>
+    spec:
+      selector:
+          matchLabels:
+            application: <APP_NAME>
+      replicas: <REPLICAS>
+      template:
+          metadata:
+            labels:
+              application: <APP_NAME>
+          spec:
+            automountServiceAccountToken: false
+            containers:
+              - name: <APP_NAME>
+                image: >-
+                  image-registry.openshift-image-registry.svc:5000/<NAME_SPACE>/<APP_NAME>:<GIT_COMMIT>
+                ports:
+                  - containerPort: <PORT>              
+                resources:
+                  limits:
+                    cpu: <LIMIT_CPU>
+                    memory: <LIMIT_MEMORY>
+                  requests:
+                    cpu: <REQUEST_CPU>
+                    memory: <REQUEST_MEMORY>
+            nodeSelector:
+              ambientes.ocp.coordinador.cl/<AMBIENTE>: 'true'
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        application: <APP_NAME>
+      name: <APP_NAME>
+      namespace: <NAME_SPACE>
+    spec:
+      ports:
+      - name: '<PORT>'
+        port: <PORT>
+        protocol: TCP
+        targetPort: <PORT> 
+      selector:
+        application: <APP_NAME>
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      labels:
+        application: <APP_NAME>
+      annotations:
+        haproxy.router.openshift.io/timeout: 180s  
+      name: <APP_NAME>
+      namespace: <NAME_SPACE>
+    spec:
+      to:
+        kind: Service
+        name: <APP_NAME>
+        weight: 100
+      port:
+        targetPort: '<PORT>'
+      tls:
+        termination: edge
+      wildcardPolicy: None
+parameters:
+  - displayName: Domain name
+    name: DOMAIN
+    required: true
+    value: apps.prod-os-1.coordinador.cl

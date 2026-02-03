@@ -1,0 +1,14 @@
+@media (max-width: 768px) {
+  nav[aria-label="breadcrumb"] {
+    ol {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-right: 2rem; // 🔑 Espacio extra a la derecha
+      scroll-padding-right: 2rem; // 🔑 Mejora para scroll "snap"
+    }
+
+    li {
+      flex: 0 0 auto;
+    }
+  }
+}
