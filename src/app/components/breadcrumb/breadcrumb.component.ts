@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  HostListener,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -30,25 +37,37 @@ interface IBreadCrumb {
 export class BreadcrumbComponent implements OnInit {
   dialog = inject(MatDialog);
   readonly requerimientoStore = inject(RequerimientoStore);
-  readonly requerimientoCrearOEditarStore = inject(RequerimientoCrearOEditarStore);
-  readonly requerimientoVisualizarStore = inject(RequerimientoVisualizarTablaStore);
+  readonly requerimientoCrearOEditarStore = inject(
+    RequerimientoCrearOEditarStore,
+  );
+  readonly requerimientoVisualizarStore = inject(
+    RequerimientoVisualizarTablaStore,
+  );
   readonly requerimientoCoordinadoStore = inject(RequerimientoCoordinadoStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private state = inject(RequerimientoAdminStateService);
 
   public breadcrumbs = signal<IBreadCrumb[]>([]);
+  public isWideScreen = signal(window.innerWidth > 1150);
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isWideScreen.set(window.innerWidth > 1150);
+  }
 
   constructor() {
     effect(() => {
       const modo = this.state.modo();
       this.updateBreadcrumbs(modo);
-    })
+    });
   }
   ngOnInit(): void {
-    this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
-      this.updateBreadcrumbs();
-    })
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updateBreadcrumbs();
+      });
 
     this.updateBreadcrumbs(this.state.modo());
   }
@@ -65,8 +84,14 @@ export class BreadcrumbComponent implements OnInit {
 
     if (crumbs.length > 0) {
       const last = crumbs[crumbs.length - 1];
-      if (last.label === 'Administrar requerimientos' || last.label === 'Visualizar requerimientos') {
-        last.label = currentModo === 'visualizar' ? 'Visualizar requerimientos' : 'Administrar requerimientos';
+      if (
+        last.label === 'Administrar requerimientos' ||
+        last.label === 'Visualizar requerimientos'
+      ) {
+        last.label =
+          currentModo === 'visualizar'
+            ? 'Visualizar requerimientos'
+            : 'Administrar requerimientos';
       }
     }
 
@@ -94,7 +119,6 @@ export class BreadcrumbComponent implements OnInit {
 
       const breadcrumbLabel = child.snapshot.data['breadcrumb'];
       if (breadcrumbLabel) {
-
         const parts = breadcrumbLabel.split('/').map((p: any) => p.trim());
 
         if (parts.length > 1) {
@@ -109,8 +133,13 @@ export class BreadcrumbComponent implements OnInit {
                 targetUrl = '/requerimiento/admin/administrar';
                 break;
               case 1: // "Visualizar detalle"
-                const routeId = route.root.firstChild?.firstChild?.snapshot.paramMap.get('id') ?? sessionStorage.getItem('visualizar-detalle-id');
-                targetUrl = routeId ? `/requerimiento/admin/detalle/${routeId}` : '/requerimiento/admin/detalle'; // base sin id
+                const routeId =
+                  route.root.firstChild?.firstChild?.snapshot.paramMap.get(
+                    'id',
+                  ) ?? sessionStorage.getItem('visualizar-detalle-id');
+                targetUrl = routeId
+                  ? `/requerimiento/admin/detalle/${routeId}`
+                  : '/requerimiento/admin/detalle'; // base sin id
                 break;
               default:
                 targetUrl = url;
@@ -119,7 +148,7 @@ export class BreadcrumbComponent implements OnInit {
 
             breadcrumbs.push({
               label: part,
-              url: targetUrl
+              url: targetUrl,
             });
           });
         } else {
@@ -147,46 +176,52 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   onBreadcrumbClick(event: Event, breadcrumb: IBreadCrumb): void {
-  event.preventDefault();
+    event.preventDefault();
 
-  // inferir desde la URL actual si estamos en un detalle de visualización o en un detalle de administrar
-  const currentUrl = this.router.url || '';
-  const estoyEnDetalleVisualizar = currentUrl.includes('/requerimiento/admin/detalle/');
-  const estoyEnDetalleAdministrar = currentUrl.includes('/requerimiento/admin/ver/');
+    // inferir desde la URL actual si estamos en un detalle de visualización o en un detalle de administrar
+    const currentUrl = this.router.url || '';
+    const estoyEnDetalleVisualizar = currentUrl.includes(
+      '/requerimiento/admin/detalle/',
+    );
+    const estoyEnDetalleAdministrar = currentUrl.includes(
+      '/requerimiento/admin/ver/',
+    );
 
     if (breadcrumb.label === 'Mis requerimientos') {
       this.router.navigate(['/requerimiento/mis_requerimientos']);
       return;
     }
 
-  // Si el usuario clickea sobre "Requerimientos" o cualquiera de las variantes del label,
-  // priorizamos la inferencia por URL (más confiable que el estado si éste puede estar desincronizado).
-  if (
-    breadcrumb.label === 'Requerimientos' ||
-    breadcrumb.label === 'Administrar requerimientos' ||
-    breadcrumb.label === 'Visualizar requerimientos' ||
-    breadcrumb.label === 'Mis requerimientos'
-  ) {
-    let destino: string;
+    // Si el usuario clickea sobre "Requerimientos" o cualquiera de las variantes del label,
+    // priorizamos la inferencia por URL (más confiable que el estado si éste puede estar desincronizado).
+    if (
+      breadcrumb.label === 'Requerimientos' ||
+      breadcrumb.label === 'Administrar requerimientos' ||
+      breadcrumb.label === 'Visualizar requerimientos' ||
+      breadcrumb.label === 'Mis requerimientos'
+    ) {
+      let destino: string;
 
-    if (estoyEnDetalleVisualizar) {
-      destino = '/requerimiento/admin/visualizar';
-    } else if (estoyEnDetalleAdministrar) {
-      destino = '/requerimiento/admin/administrar';
-    } else {
-      // fallback al estado (por si se está en la lista ya)
-      const modoActual = this.state.modo();
-      destino = modoActual === 'visualizar' ? '/requerimiento/admin/visualizar' : '/requerimiento/admin/administrar';
+      if (estoyEnDetalleVisualizar) {
+        destino = '/requerimiento/admin/visualizar';
+      } else if (estoyEnDetalleAdministrar) {
+        destino = '/requerimiento/admin/administrar';
+      } else {
+        // fallback al estado (por si se está en la lista ya)
+        const modoActual = this.state.modo();
+        destino =
+          modoActual === 'visualizar'
+            ? '/requerimiento/admin/visualizar'
+            : '/requerimiento/admin/administrar';
+      }
+
+      this.router.navigate([destino]);
+      return;
     }
 
-    this.router.navigate([destino]);
-    return;
+    // resto de breadcrumbs con URL explícita (detalle, editar, etc.)
+    if (breadcrumb.url) {
+      this.router.navigate([breadcrumb.url]);
+    }
   }
-
-  // resto de breadcrumbs con URL explícita (detalle, editar, etc.)
-  if (breadcrumb.url) {
-    this.router.navigate([breadcrumb.url]);
-  }
-}
-
 }

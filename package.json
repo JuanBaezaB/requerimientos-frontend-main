@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "audit:ci": "pnpm audit --registry=https://registry.npmjs.org/ --audit-level=moderate",
+    "audit": "pnpm audit --registry=https://registry.npmjs.org/ --audit-level=info",
+    "audit:ci": "pnpm audit --registry=https://registry.npmjs.org/ --audit-level=info --prod --no-optional",
     "prepare": "husky || true",
     "detect-secrets": "npx secretlint \"**/*\" --secretlintignore .secretlintignore",
     "detect-secrets:ci": "npx secretlint --maskSecrets \"**/*\" --secretlintignore .secretlintignore",
@@ -20,8 +21,8 @@
     "@angular/animations": "19.2.17",
     "@angular/cdk": "19.2.6",
     "@angular/common": "19.2.17",
-    "@angular/compiler": "19.2.17",
-    "@angular/core": "19.2.17",
+    "@angular/compiler": "19.2.18",
+    "@angular/core": "19.2.18",
     "@angular/forms": "19.2.17",
     "@angular/material": "19.2.6",
     "@angular/platform-browser": "19.2.17",
@@ -67,6 +68,12 @@
       "tar@<=7.5.3": ">=7.5.4",
       "lodash@>=4.0.0 <=4.17.22": ">=4.17.23",
       "tar@<7.5.7": ">=7.5.7"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "lmdb",
+      "msgpackr-extract"
+    ]
   }
 }

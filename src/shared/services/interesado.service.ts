@@ -11,6 +11,7 @@ export interface InteresadosResponse {
   id: string;
   rutEmpresa: string;
   nombreFantasia: string;
+  razonSocial: string;
   interesadoSegmento?: InteresadoSegmento[];
 }
 
@@ -37,6 +38,11 @@ export class InteresadoService {
         params = params.append('segmentos', segmento.toString());
       });
     }
+
+    params = params
+      .append('vigente', 'true')
+      .append('suplente', 'true')
+      .append('ordenarPor', 'razonSocial');
 
     return this.http
       .get(`${environment.omnidataUrl}/v1/interesados`, { params })

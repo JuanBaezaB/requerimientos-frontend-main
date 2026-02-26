@@ -122,7 +122,7 @@ export class RequerimientoVerComponent implements OnInit{
 
     if (!termino) return lista;
 
-    return lista.filter(coordinador => (coordinador.nombreFantasia ?? '').toLowerCase().includes(termino))
+    return lista.filter(coordinador => (coordinador.razonSocial ?? '').toLowerCase().includes(termino))
   });
 
   toggleVerMas() {

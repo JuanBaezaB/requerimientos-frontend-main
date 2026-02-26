@@ -1,6 +1,9 @@
 <nav
   aria-label="breadcrumb"
-  class="fixed top-[120px] z-40 w-full bg-[#f0f4f7] py-2 pl-4"
+  [class]="
+    'fixed z-40 w-full bg-[#f0f4f7] py-2 pl-12 ' +
+    (isWideScreen() ? 'top-[150px]' : 'top-[80px]')
+  "
 >
   <ol class="flex flex-wrap items-center">
     <li class="">

@@ -44,13 +44,18 @@ export const TipoTitularesLabels = {
     MatSelectModule,
     MatProgressSpinnerModule,
     MatInputModule
-],
+  ],
   templateUrl: './step5.component.html',
   styleUrl: './step5.component.scss',
   styles: [':host { display: contents; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Step5Component implements OnInit {
+
+  readonly obligatorios: TipoTitularesValues[] = [
+    TipoTitularesValues.TITULAR,
+    TipoTitularesValues.SUPLENTE
+  ];
 
   fb = inject(FormBuilder);
   injector = inject(Injector);
@@ -62,7 +67,7 @@ export class Step5Component implements OnInit {
     label
   }));
 
-  constructor(){
+  constructor() {
     effect(() => {
       const detalle = this.requerimientoCrearStore.requerimientoDetalle();
 
@@ -99,14 +104,14 @@ export class Step5Component implements OnInit {
           }
 
           if (!value || (Array.isArray(value) && value.length === 0)) {
-            control.setValue([TipoTitularesValues.TITULAR], { emitEvent: false });
+            control.setValue(this.obligatorios, { emitEvent: false });
             return;
           }
 
           if (Array.isArray(value)) {
             const ordered = [
-              TipoTitularesValues.TITULAR,
-              ...value.filter(v => v !== TipoTitularesValues.TITULAR)
+              ...this.obligatorios,
+              ...value.filter(v => !this.obligatorios.includes(v))
             ];
 
             if (JSON.stringify(value) !== JSON.stringify(ordered)) {
@@ -133,6 +138,7 @@ export class Step5Component implements OnInit {
     const extraCount = values.length - 1;
     return `${firstLabel} (+${extraCount} seleccionado${extraCount > 1 ? 's' : ''})`;
   }
+  
   get selectedRoles() {
     return this.form().get('notificaciones')?.value ?? [];
   }
@@ -141,26 +147,16 @@ export class Step5Component implements OnInit {
     const control = this.form().get('step5.notificaciones');
     const values: number[] = control?.value ?? [];
 
-    if (!values.includes(TipoTitularesValues.TITULAR)) {
-      const ordered = [
-        TipoTitularesValues.TITULAR,
-        ...values.filter(v => v !== TipoTitularesValues.TITULAR)
-      ];
-      control?.setValue(ordered, { emitEvent: false });
-      return;
-    }
+    const otros = values.filter(v => !this.obligatorios.includes(v));
 
-    const ordered = [
-      TipoTitularesValues.TITULAR,
-      ...values.filter(v => v !== TipoTitularesValues.TITULAR)
-    ];
+    const ordered = [...this.obligatorios, ...otros];
 
     if (JSON.stringify(values) !== JSON.stringify(ordered)) {
       control?.setValue(ordered, { emitEvent: false });
     }
   }
 
-  private decodeBitmask(bitmask: number): number[]{
+  private decodeBitmask(bitmask: number): number[] {
     const selected: number[] = [];
 
     if (bitmask & TipoTitularesValues.TITULAR) {

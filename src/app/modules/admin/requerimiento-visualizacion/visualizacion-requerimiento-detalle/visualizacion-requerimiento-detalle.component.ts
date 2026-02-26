@@ -170,7 +170,7 @@ export class VisualizacionRequerimientoDetalleComponent {
         return 'Todos';
       }
 
-      const nombres = lista.filter(c => seleccionados.includes(c.id)).map(c => c.nombreFantasia);
+      const nombres = lista.filter(c => seleccionados.includes(c.id)).map(c => c.razonSocial);
 
       if (nombres.length === 1) {
         return nombres[0];

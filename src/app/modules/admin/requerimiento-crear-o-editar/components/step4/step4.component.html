@@ -41,7 +41,7 @@
         formControlName="coordinador"
       >
         <mat-select-trigger>
-          {{ form().get("step4.coordinador")?.value[0]?.nombreFantasia || "" }}
+          {{ form().get("step4.coordinador")?.value[0]?.razonSocial || "" }}
           @if ((form().get("step4.coordinador")?.value?.length || 0) > 1) {
             <span>
               (+{{ (form().get("step4.coordinador")?.value?.length || 0) - 1 }}
@@ -55,7 +55,7 @@
         </mat-select-trigger>
         @for (coordinado of coordinados(); track coordinado) {
           <mat-option [value]="coordinado">{{
-            coordinado.nombreFantasia
+            coordinado.razonSocial
           }}</mat-option>
         }
       </mat-select>
